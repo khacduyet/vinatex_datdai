@@ -1,0 +1,297 @@
+<div class="modal-header">
+    <h5 class="modal-title">Tìm kiếm nâng cao</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p-tabView>
+        <p-tabPanel header="Thông tin chung">
+            <p-panel header="Thông tin thửa đất" [toggleable]="true">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Biểu thức:</label>
+                        <p-dropdown [filter]="true" [options]="bieuThucs" placeholder="Chọn biểu thức"
+                            [showClear]="true" styleClass="p-inputtext-sm" [(ngModel)]="bieuThuc"
+                            (ngModelChange)="changeBieuThuc($event)" optionLabel="label">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column"
+                        *ngIf="bieuThuc!==undefined&& bieuThuc!==null &&bieuThuc.value===2">
+
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column"
+                        *ngIf="bieuThuc!==undefined&& bieuThuc!==null &&bieuThuc.value===2">
+                        <label>Diện tích từ:</label>
+                        <div class="p-inputgroup">
+                            <p-inputNumber [(ngModel)]="searchItem.ThongTinChung.DienTichTu" [minFractionDigits]="2"
+                                locale="vi-VN">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column"
+                        *ngIf="bieuThuc!==undefined&& bieuThuc!==null &&bieuThuc.value===2">
+                        <label>Diện tích đến:</label>
+                        <div class="p-inputgroup">
+                            <p-inputNumber [(ngModel)]="searchItem.ThongTinChung.DienTichDen" [minFractionDigits]="2"
+                                locale="vi-VN">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column"
+                        *ngIf="bieuThuc!==undefined&& bieuThuc!==null &&(bieuThuc.value===1||bieuThuc.value===0||bieuThuc.value===3)">
+                        <label>Diện tích:</label>
+                        <div class="p-inputgroup">
+                            <p-inputNumber [(ngModel)]="searchItem.ThongTinChung.DienTichChung" [minFractionDigits]="2"
+                                locale="vi-VN">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Trạng thái tài sản:</label>
+                        <p-dropdown [filter]="true" [options]="listMaHanhDong" placeholder="Chọn biểu thức"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.MaHanhDong" optionLabel="label">
+                        </p-dropdown>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel header="Thông tin đơn vị sử dụng đất" [toggleable]="true">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Đơn vị sử dụng đất:</label>
+                        <button pButton [label]="vung.Ten" icon="pi pi-chevron-down" iconPos="right"
+                            (click)="chonVung.toggle($event)"
+                            class="p-button-sm p-button-secondary p-button-outlined right-icon"></button>
+                        <p-overlayPanel #chonVung>
+                            <ng-template pTemplate>
+                                <p-tree [value]="vungs" [filter]="true" selectionMode="single"
+                                    [(selection)]="selectedFile" (onNodeSelect)="nodeSelect($event)"></p-tree>
+                            </ng-template>
+                        </p-overlayPanel>
+                        <!-- <p-dropdown [filter]="true" [options]="listDonVi" placeholder="Chọn đơn vị sử dụng"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.IDDonVi" optionLabel="Ten">
+                        </p-dropdown> -->
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Tên công ty:</label>
+                        <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.ThongTinChung.TenCongTy"
+                            pInputText [disabled]="vung.Ma!==undefined"/>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Số GPKD:</label>
+                        <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.ThongTinChung.SoGPKD"
+                            pInputText [disabled]="vung.Ma!==undefined"/>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Tên người đại diện:</label>
+                        <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.ThongTinChung.TenNguoiDaiDien"
+                            pInputText [disabled]="vung.Ma!==undefined"/>
+                    </div>
+                </div>
+            </p-panel>
+            <p-panel header="Quyền sử dụng đất" [toggleable]="true">
+                <div class="p-grid">
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Ngày cấp GCN:</label>
+                        <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [locale]="lang"
+                            [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [showIcon]="true"
+                            [(ngModel)]="searchItem.ThongTinChung.NgayCap" inputId="icon" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Thời hạn sử dụng (năm):</label>
+                        <p-inputNumber [(ngModel)]="searchItem.ThongTinChung.ThoiGianSuDung" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                    </div>
+                    <!-- <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Nguồn gốc sử dụng:</label>
+                        <p-dropdown [filter]="true" [options]="listNguonGoc" placeholder="Chọn nguồn gốc"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.tempNguonGoc" optionLabel="Ten">
+                        </p-dropdown>
+                    </div> -->
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Nguồn gốc sử dụng:</label>
+                        <p-dropdown [filter]="true" [options]="listNguonGoc" placeholder="Chọn nguồn gốc"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.IDNguonGocDat" optionLabel="Ten">
+                        </p-dropdown>
+                    </div>
+                    <!-- <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Mục đích sử dụng:</label>
+                        <p-dropdown [filter]="true" [options]="listMucDichSuDung" placeholder="Chọn mục đích"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.tempMucDichSuDung" optionLabel="Ten">
+                        </p-dropdown>
+                    </div> -->
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label>Mục đích sử dụng:</label>
+                        <p-dropdown [filter]="true" [options]="listMucDichSuDung" placeholder="Chọn mục đích"
+                            [showClear]="true" styleClass="p-inputtext-sm"
+                            [(ngModel)]="searchItem.ThongTinChung.IDMucDichSuDung" optionLabel="Ten">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                        <label class="my-auto mr-3">Giá thuê đất hằng năm:</label>
+                        <p-inputNumber [(ngModel)]="searchItem.ThongTinChung.GiaThueDatHangNam" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column"></div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-row">
+                        <label class="my-auto mr-3">Đã đăng ký tài sản trên đất:</label>
+                        <p-checkbox [(ngModel)]="searchItem.ThongTinChung.DaDangKyTaiSanTrenDat" binary="true"
+                            inputId="binary"></p-checkbox>
+                    </div>
+                    <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-row">
+                        <label class="my-auto mr-3">Đã có Giấy CNQSDĐ:</label>
+                        <p-checkbox [(ngModel)]="searchItem.ThongTinChung.DaCoGiayCNQSDD" binary="true"
+                            inputId="binary"></p-checkbox>
+                    </div>
+                </div>
+            </p-panel>
+        </p-tabPanel>
+        <p-tabPanel header="Tài sản trên đất">
+            <div class="p-grid">
+                <!-- <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Tình trạng tài sản:</label>
+                    <p-dropdown [filter]="true" [options]="listTinhTrangTaiSan" placeholder="Chọn tình trạng tài sản"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TaiSanTrenDat.tempTinhTrangTaiSan" optionLabel="Ten">
+                    </p-dropdown>
+                </div> -->
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Tình trạng tài sản:</label>
+                    <p-dropdown [filter]="true" [options]="listTinhTrangTaiSan" placeholder="Chọn tình trạng tài sản"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TaiSanTrenDat.IDTinhTrangTaiSan" optionLabel="Ten">
+                    </p-dropdown>
+                </div>
+                <!-- <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Loại tài sản:</label>
+                    <p-dropdown [filter]="true" [options]="listLoaiTaiSan" placeholder="Chọn loại tài sản"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TaiSanTrenDat.tempLoaiTaiSan" optionLabel="Ten">
+                    </p-dropdown>
+                </div> -->
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Loại tài sản:</label>
+                    <p-dropdown [filter]="true" [options]="listLoaiTaiSan" placeholder="Chọn loại tài sản"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TaiSanTrenDat.IDLoaiTaiSan" optionLabel="Ten">
+                    </p-dropdown>
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Diện tích sàn:</label>
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="searchItem.TaiSanTrenDat.DienTichTaiSan" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                        <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                    </div>
+                </div>
+
+
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Diện tích xây dựng:</label>
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="searchItem.TaiSanTrenDat.DienTichXayDung" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                        <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                    </div>
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Năm xây dựng:</label>
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="searchItem.TaiSanTrenDat.NamXayDung" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                        <span class="p-inputgroup-addon">năm</span>
+                    </div>
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Nguyên giá:</label>
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="searchItem.TaiSanTrenDat.NguyenGia" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                        <span class="p-inputgroup-addon">VNĐ</span>
+                    </div>
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Giá trị còn lại:</label>
+                    <div class="p-inputgroup">
+                        <p-inputNumber [(ngModel)]="searchItem.TaiSanTrenDat.GiaTriConLai" mode="decimal" [min]="0"
+                            locale="vi-VN">
+                        </p-inputNumber>
+                        <span class="p-inputgroup-addon">VNĐ</span>
+                    </div>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Tình trạng pháp lý">
+            <div class="p-grid">
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Nội dung biến động:</label>
+                    <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.TinhTrangPhapLy.NoiDungBienDong"
+                        pInputText />
+                </div>
+                <!-- <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Loại biến động:</label>
+                    <p-dropdown [filter]="true" [options]="listLoaiBienDong" placeholder="Chọn loại biến động"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TinhTrangPhapLy.tempLoaiBienDong" optionLabel="Ten">
+                    </p-dropdown>
+                </div> -->
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Loại biến động:</label>
+                    <p-dropdown [filter]="true" [options]="listLoaiBienDong" placeholder="Chọn loại biến động"
+                        [showClear]="true" styleClass="p-inputtext-sm"
+                        [(ngModel)]="searchItem.TinhTrangPhapLy.IDdmBienDong" optionLabel="Ten">
+                    </p-dropdown>
+                </div>
+            </div>
+        </p-tabPanel>
+        <p-tabPanel header="Hồ sơ - văn bản pháp quy">
+            <div class="p-grid">
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Ngày quyết định:</label>
+                    <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [locale]="lang"
+                        [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [showIcon]="true"
+                        [(ngModel)]="searchItem.HoSoVanBanPhapQuy.NgayQuyetDinh" inputId="icon"
+                        placeholder="dd/mm/yyyy">
+                    </p-calendar>
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Loại văn bản:</label>
+                    <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.HoSoVanBanPhapQuy.LoaiVanBan"
+                        pInputText />
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Tên văn bản:</label>
+                    <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.HoSoVanBanPhapQuy.TenVanBan"
+                        pInputText />
+                </div>
+                <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column">
+                    <label>Cơ quan ban hành:</label>
+                    <input type="text" class="p-inputtext-sm" [(ngModel)]="searchItem.HoSoVanBanPhapQuy.CoQuanBanHanh"
+                        pInputText />
+                </div>
+            </div>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Lọc" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <!-- <button pButton pRipple label="Lưu và Thêm mới" icon="pi pi-plus" class="p-button-sm  p-mr-2"
+        (click)="accept('more')"></button>
+    <button pButton pRipple label="Thoát" icon="pi pi-trash"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button> -->
+</div>

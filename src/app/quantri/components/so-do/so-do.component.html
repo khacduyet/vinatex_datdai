@@ -1,0 +1,13 @@
+<div class="w-100 p-d-flex p-justify-center">
+<p-galleria [(value)]="items" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '800px'}" [numVisible]="5" [circular]="true"
+[autoPlay]="true" [transitionInterval]="2000"> 
+    <ng-template pTemplate="item" let-item>
+        <img [src]="item.imgURL" style="width: 50%; display: block;" />
+    </ng-template>
+    <ng-template pTemplate="thumbnail" let-item>
+        <div class="p-grid p-nogutter p-justify-center">
+            <img [src]="item.imgURL" width="100px" height="100px" />
+        </div>
+    </ng-template>
+</p-galleria>
+</div>

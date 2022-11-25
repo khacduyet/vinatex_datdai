@@ -1,0 +1,182 @@
+<div class="p-d-flex p-flex-row p-jc-between" style="padding-left:20px;padding-right:20px;">
+  <div class="d-flex flex-column flex-lg-row">
+    <button pButton [label]="vung.Ten" icon="pi pi-chevron-down" iconPos="right" (click)="chonVung.toggle($event)"
+      class="p-button-sm p-button-secondary p-button-text right-icon bg-white mr-4"></button>
+    <p-overlayPanel #chonVung>
+      <ng-template pTemplate>
+        <!-- selectionMode="checkbox"  -->
+        <p-tree [value]="vungs" [filter]="true" selectionMode="single" [(selection)]="selectedFile"
+          (onNodeSelect)="nodeSelect($event)"></p-tree>
+      </ng-template>
+    </p-overlayPanel>
+    
+  </div>
+  <div class="p-d-flex p-flex-row">
+    <p-dropdown [options]="tuNams" placeholder="Từ năm" optionLabel="label" (onChange)="tuNamChange($event.value.label)"
+      [(ngModel)]="TuNam" class="p-mr-2"></p-dropdown>
+    <p-dropdown [options]="denNams" placeholder="Đến năm" optionLabel="label" (onChange)="denNamChange()"
+      [(ngModel)]="DenNam"></p-dropdown>
+  </div>
+
+</div>
+<div class="p-grid" style="align-self: stretch;">
+  <div class="p-col-12 p-xl-3 p-lg-6 p-p-3">
+    <div>
+      <p-table [value]="thongKes" styleClass="p-datatable-sm wrap-text">
+        <ng-template pTemplate="header">
+          <tr class="normal">
+            <th></th>
+            <th style="width: 50px;">Số thửa</th>
+            <th>Diện tích(m2)</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-thongke>
+          <tr>
+            <td class="text-left font-weight-bold">{{thongke.Ten}}</td>
+            <td class="text-center">{{thongke.SoThua}}</td>
+            <td class="text-center">{{thongke.DienTich|number:'0.0-2'}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="p-col-12 p-xl-5 p-lg-6 p-p-3">
+    <div>
+      <p-chart type="bar" [data]="bieuDoCot" [options]="options"></p-chart>
+    </div>
+  </div>
+  <div class="p-col-12 p-xl-4 p-lg-6 p-p-3">
+    <div>
+      <p-chart type="line" [data]="bieuDoDuong" [options]="optionsLine"></p-chart>
+    </div>
+  </div>
+  <!-- <div class="p-d-flex p-flex-row p-jc-between" style="padding-left:20px;padding-right:20px;text-align: right;width: 100%;">
+    <div></div>
+    <div class="p-d-flex p-flex-row">
+      <div class="p-inputgroup">
+        <p-toolbar styleClass=" p-p-2">
+          <ng-template pTemplate="right">
+            <div class="p-inputgroup">
+                <input type="text" placeholder="Tìm kiếm" [(ngModel)]="keyWord" class="p-inputtext-sm"
+                    (keyup.enter)="GetListTaiSanDat(vung.ID,true)" pInputText />
+                <button type="button" pButton pRipple icon="pi pi-refresh" class="p-button-secondary p-button-text"
+                    (click)="resetFilter()"></button>
+                <button type="button" pButton pRipple icon="pi pi-bars" (click)="advSearch()"
+                    class="p-button-secondary p-button-text" #advSButton></button>
+                <button type="button" pButton pRipple icon="pi pi-search" class="p-button-secondary p-button-text"
+                    (click)="GetListTaiSanDat(vung.ID,true)"></button>
+            </div>
+        </ng-template>
+        </p-toolbar>
+        <p-button class="p-button-sm p-button-outlined p-button-primary p-ml-2" (click)="getPopupSearch()" label="Tìm kiếm" icon="pi pi pi-search"></p-button>
+        <button  pButton pRipple label="Tìm kiếm" class="p-button-sm p-button-outlined p-button-success p-ml-2" ></button>
+        <button pButton pRipple label="Xuất Excel" class="p-button-sm p-button-outlined p-button-primary p-ml-2" (click)="exportExcel()"></button>
+        <button pButton pRipple type="button" icon="pi pi-file-excel" class="p-button-rounded p-button-success p-button-outlined" (click)="exportExcel()"></button>
+      </div>
+    </div>
+  </div> -->
+  <div class="p-col-12  p-p-3">
+    <p-toolbar styleClass=" p-p-2">
+      <ng-template pTemplate="left">
+        <button pButton pRipple label="Xuất Excel" class="p-button-sm p-button-outlined p-button-primary p-mr-2"
+          (click)="exportExcel()"></button>
+        <button pButton pRipple label="Báo Cáo Tổng Hợp" class="p-button-sm p-button-primary mr-3"
+          (click)="baoCaoTongHop()"></button>
+          <div class="p-d-flex p-flex-row">
+            <label class="my-auto mr-3">Đã bán, đã trả:</label>&nbsp;<p-checkbox [(ngModel)]="DaBan" (onChange)="ChangeDaBan()"
+                      binary="true" inputId="binary">
+                  </p-checkbox>
+          </div>
+      </ng-template>
+      <ng-template pTemplate="right">
+        <div class="p-inputgroup">
+          <input type="text" placeholder="Tìm kiếm" [(ngModel)]="keyWord" class="p-inputtext-sm"
+            (keyup.enter)="GetListTaiSanDat(vung.ID)" pInputText />
+          <button type="button" pButton pRipple icon="pi pi-search" pTooltip="Tìm kiếm" showDelay="1000"
+            tooltipPosition="bottom" class="p-button-secondary p-button-text"
+            (click)="GetListTaiSanDat(vung.ID)"></button>
+          <button type="button" pButton pRipple icon="pi pi-filter" (click)="getPopupSearch()"
+            pTooltip="Tìm kiếm nâng cao" showDelay="1000" tooltipPosition="bottom"
+            class="p-button-secondary p-button-text" #advSButton></button>
+          <button type="button" pButton pRipple icon="pi pi-refresh" pTooltip="Làm mới" showDelay="1000"
+            tooltipPosition="bottom" class="p-button-secondary p-button-text" (click)="resetFilter()"></button>
+        </div>
+      </ng-template>
+    </p-toolbar>
+    <div>
+      <p-table [value]="thuaDats" styleClass="wrap-text p-datatable-sm" [scrollable]="true">
+        <ng-template pTemplate="colgroup">
+          <colgroup>
+            <col style="width:30px">
+            <col style="width:50px">
+            <col style="width:30px">
+            <col style="width:200px">
+            <col style="width:300px">
+            <col style="width:80px">
+            <col style="width:80px">
+            <col style="width:150px">
+            <col style="width:300px">
+            <col style="width:100px">
+            <col style="width:250px">
+            <col style="width:150px">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr class="normal-blv">
+            <th></th>
+            <th>STT</th>
+            <th></th>
+            <th>Đơn vị sử dụng</th>
+            <th>Địa chỉ</th>
+            <th>Thanh tra/Kiểm toán</th>
+            <th>DT đất(m2)</th>
+            <th>Tổng DT đất xây dựng (m2)</th>
+            <th>Hiện trạng sử dụng</th>
+            <th>Thời gian thuê(năm)</th>
+            <th>Phương án sắp xếp</th>
+            <th>Ghi chú</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-thuadat let-i="rowIndex">
+          <tr>
+            <td class="text-center"><p-checkbox [(ngModel)]="thuadat.selected" (onChange)="checkThuaDat(i)" binary="true" inputId="binary"></p-checkbox></td>
+            <td [ngClass]="{'text-center':true}">{{ 10 * (pagingThuaDat.CurrentPage - 1) + i + 1 }}</td>
+            <td class="text-center" style="padding:0px !important">
+              <img *ngIf="thuadat.TaiSanDat.MaHanhDong===1" src="assets/logo/giaytophaply.jpg" width="30px" alt=""
+                pTooltip="Chưa có giấy tờ pháp lý" showDelay="1000" tooltipPosition="bottom">
+              <!-- <img *ngIf="thuadat.TaiSanDat.MaHanhDong===2" src="/assets/logo/sodo.png" width="30px" alt=""> -->
+              <img *ngIf="thuadat.TaiSanDat.MaHanhDong===3" src="assets/logo/hopdong.jpg" width="30px" alt=""
+                pTooltip="Có hợp đồng thuê" showDelay="1000" tooltipPosition="bottom">
+              <img *ngIf="thuadat.TaiSanDat.MaHanhDong===4" src="assets/logo/sodo.png" width="30px" alt=""
+                pTooltip="Có sổ đỏ" showDelay="1000" tooltipPosition="bottom">
+            </td>
+
+            <td>{{thuadat.TaiSanDat.TenDanhMucDonVi}}</td>
+            <td> <a href="javascript:void(0)"
+                (click)="showChiTietThuaDat(thuadat.ID)">{{thuadat.TaiSanDat.DiaChi +' - '+thuadat.TaiSanDat.TendmPhuong+' - '+ thuadat.TaiSanDat.TendmQuan+' - '+thuadat.TendmTinh}}</a>
+            </td>
+            <td class="text-center">
+              <p-checkbox [ngModel]="getThanhTra(thuadat.HoSos)" binary="true" inputId="binary" disabled></p-checkbox>
+            </td>
+            <td class="text-center">{{ thuadat.TaiSanDat.DienTich|number:'0.0' }}</td>
+            <td class="text-center">{{ thuadat.TaiSanDat.TongDienTichDat|number:'0.0' }}</td>
+            <td>
+              <p *ngFor="let HTSD of thuadat.HienTrangSuDungs" style="margin:0">
+                _{{HTSD.NoiDung}}
+              </p>
+            </td>
+            <td class="text-center">{{thuadat.TaiSanDat.ThoiHanSuDung}}</td>
+            <td>{{thuadat.TaiSanDat.TenPhuongAnSapXep}}</td>
+            <td class="text-center">{{thuadat.TaiSanDat.GhiChu}}</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-end p-flex-column p-flex-md-row" *ngIf="!advancedSearch">
+              <p-paginator #paginator [rows]="10" [totalRecords]="pagingThuaDat.TotalItem"
+                  (onPageChange)="changePage($event)"></p-paginator>
+          </div>
+      </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

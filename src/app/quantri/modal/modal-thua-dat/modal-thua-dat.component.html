@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} thửa đất</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <button pButton pRipple type="button" icon="pi pi-question" class="p-button-rounded p-button-text" (click)="taiHDSD()"></button>
+</div>
+<div class="modal-body">
+    <p-tabView>
+        <p-tabPanel header="Thông tin chung">
+            <div class="p-d-flex p-flex-column p-flex-md-row" *ngIf="opt!=='add'">
+                <div *ngFor="let cap of capQuanLy" class="p-field-checkbox p-mr-3">
+                    <p-radioButton inputId="cap.value" name="cap.value" [value]="cap.value"
+                        [(ngModel)]="item.TaiSanDat.MaHanhDong"></p-radioButton>
+                    <label style="margin-bottom:0px" [for]="cap.value">{{cap.label}}</label>
+                </div>
+            </div>
+            <app-crud-thong-tin-chung [(item)]="item" [opt]="opt"></app-crud-thong-tin-chung>
+        </p-tabPanel>
+        <p-tabPanel header="Tài sản trên đất">
+            <app-crud-tai-san-tren-dat [(TaiSanDatNhas)]="item.TaiSanDatNhas"></app-crud-tai-san-tren-dat>
+        </p-tabPanel>
+        <p-tabPanel header="Ảnh hiện trạng">
+            <app-crud-so-do [(BanVe)]="item.SoDos"></app-crud-so-do>
+        </p-tabPanel>
+        <p-tabPanel header="Tình trạng pháp lý">
+            <app-crud-tinh-trang-phap-ly [(BienDongs)]=item.BienDongs></app-crud-tinh-trang-phap-ly>
+        </p-tabPanel>
+        <p-tabPanel header="Hồ sơ - văn bản pháp quy">
+            <app-crud-hsvb-phap-quy [(TepDinhKems)]="item.HoSos"></app-crud-hsvb-phap-quy>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Lưu" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <button pButton pRipple label="Lưu và Thêm mới" icon="pi pi-plus" class="p-button-sm  p-mr-2"
+        (click)="accept('more')"></button>
+    <button pButton pRipple label="Thoát" icon="pi pi-trash"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>
+<!-- <div class="p-dialog-footer" style="padding-bottom: 0px;padding-right: 0px;">
+    <button pButton label="Xác nhận" icon="pi pi-check" class="p-button-sm p-button-success p-mr-2"></button>
+    <button pButton label="Hủy bỏ" icon="pi pi-times" class="p-button-sm p-button-danger p-mr-2"></button>
+</div> -->

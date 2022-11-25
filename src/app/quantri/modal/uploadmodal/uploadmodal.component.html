@@ -1,0 +1,97 @@
+<div class="modal-header">
+    <h5 class="modal-title">Tải tài liệu</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="Ondismiss()" ngbAutofocus>
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row mb-3">
+      <div class="col-12">
+        Chọn file
+        <input type="file" ng2FileSelect [uploader]="uploader" multiple *ngIf="!single"/>
+        <input type="file" ng2FileSelect [uploader]="uploader" *ngIf="single"/>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-12">
+        <p>Danh sách tài liệu: {{ uploader?.queue?.length }}</p>
+      </div>
+    </div>
+  
+    <div class="table-responsive pt-2">
+      <table class="table table-bordered table-hover table-sm">
+        <thead>
+          <tr>
+            <th class="text-center" width="50%">Tên tài liệu</th>
+            <th class="text-center">Kích thước</th>
+            <th class="text-center">Tiến trình</th>
+            <th class="text-center">Trạng thái</th>
+            <th class="text-center">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of uploader.queue">
+            <td><strong>{{ item?.file?.name }}</strong></td>
+            <td nowrap>
+                <!-- {{item|json}} -->
+              <span>
+                {{ item?.file?.size/1024/1024 | number:'.2' }} MB
+              </span>
+            </td>
+            <td>
+              <div class="progress" style="margin-bottom: 0;">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+              </div>
+            </td>
+            <td class="text-center">
+              <!-- <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span> -->
+              <i class="fas fa-check" *ngIf="item.isSuccess"></i>
+              <!-- <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+              <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span> -->
+            </td>
+            <td nowrap class="text-center">
+              <!-- <button type="button" class="btn btn-success btn-sm" (click)="item.upload()"
+              [disabled]="item.isReady || item.isUploading || item.isSuccess">
+              <span class="glyphicon glyphicon-upload"></span> Upload
+            </button>
+            <button type="button" class="btn btn-warning btn-sm" (click)="item.cancel()"
+              [disabled]="!item.isUploading">
+              <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+            </button> -->
+              <button type="button" class="btn btn-danger btn-sm" (click)="item.remove()">
+                <i class="pi pi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="row">
+      <div class="col-12">
+        <div class="mb-3">
+          Tiến trình:
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+          </div>
+        </div>
+        <button type="button" class="btn btn-success btn-sm m-1" (click)="uploader.uploadAll()"
+          [disabled]="!uploader.getNotUploadedItems().length">
+          <span class="glyphicon glyphicon-upload"></span> Tải lên tất cả
+        </button>
+        <button type="button" class="btn btn-warning btn-sm m-1" (click)="uploader.cancelAll()"
+          [disabled]="!uploader.isUploading">
+          <span class="glyphicon glyphicon-ban-circle"></span> Bỏ qua tất cả
+        </button>
+        <button type="button" class="btn btn-danger btn-sm m-1" (click)="uploader.clearQueue()"
+          [disabled]="!uploader.queue.length">
+          <span class="glyphicon glyphicon-trash"></span> Xóa tất cả
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success btn-sm" (click)="Onclose()" *ngIf="newfileinfo.length>0">Xác nhận</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="Ondismiss()"><i class="fas fa-ban"></i> Đóng</button>
+  </div>

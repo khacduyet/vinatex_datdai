@@ -1,0 +1,97 @@
+<!-- <p-chart type="bar" [data]=monthlyConfig></p-chart> -->
+<div class="p-d-flex p-ai-center p-jc-between">
+    <div class="p-d-flex flex-column flex-lg-row p-pl-3">
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._tuNgay" inputId="icon" placeholder="Từ ngày" (onSelect)="GetBieuDo()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._denNgay" inputId="icon" placeholder="Đến ngày" (onSelect)="GetBieuDo()">
+            </p-calendar>
+        </div>
+        <!-- <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listCongDoan" placeholder="Chọn công đoạn"
+                styleClass="p-inputtext-sm" [(ngModel)]="filterSanLuong.CongDoan"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listMay" placeholder="Chọn máy"
+                styleClass="p-inputtext-sm" [(ngModel)]="filterSanLuong.May"></p-dropdown>
+        </div> -->
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listMatHang" placeholder="Chọn mặt hàng" styleClass="p-inputtext-sm"
+                [(ngModel)]="filter.IddmItem" (onChange)="GetBieuDo()"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listCongDoan" styleClass="p-inputtext-sm"
+                            [(ngModel)]="filter.CongDoan" (onChange)="GetBieuDo(true)"></p-dropdown>
+        </div>     
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listMay" styleClass="p-inputtext-sm"
+                            [(ngModel)]="filter.IddmMay" (onChange)="GetBieuDo()"></p-dropdown>
+        </div> 
+        <!-- <div class="p-inputgroup" style="width:200px">
+            <input type="text" placeholder="Tìm kiếm" class="p-inputtext-sm" pInputText (keyup.enter)="GetBieuDoBong()"
+                [(ngModel)]="filterBong.KeyWord" />
+            <button type="button" pButton pRipple icon="pi pi-refresh"
+                class="p-button-secondary p-button-sm p-button-text" (click)="resetFilter()"></button>
+            <button type="button" pButton pRipple icon="pi pi-search"
+                class="p-button-secondary p-button-sm p-button-text" (click)="resetFilter()"></button>
+        </div> -->
+    </div>
+</div>
+<div class="p-grid" style="align-self: stretch;">
+    <div class="p-col-12 p-p-3">
+        <div class="chart">
+            <div class="p-d-flex flex-column flex-lg-row p-jc-between">
+                <div class="p-d-flex flex-column flex-lg-row">
+                    <span class="p-mr-2">
+                        <h5>Lũy kế sản lượng</h5>
+                    </span>
+                    <!-- <p-inputSwitch [(ngModel)]="filterSanLuong.checked" (onChange)="changeOpt($event)"></p-inputSwitch> -->
+                    <!-- <span class="p-ml-2">
+                        <h5>Sản lượng theo máy</h5>
+                    </span> -->
+                </div>
+                <div class="p-d-flex flex-column flex-lg-row">
+                    <div style="display:table;height:100%">
+                        <!-- <a style="display: table-cell; vertical-align: middle;" href="javascript:void(0)">Xem bảng dữ
+                            liệu</a> -->
+                    </div>
+                </div>
+            </div>
+            <p-chart type="bar" [data]=monthlyConfig_sanluongtheomay [options]="option1"></p-chart>
+        </div>
+    </div>
+    <div class="p-col-12 p-p-3">
+        <div class="chart">
+            <div class="p-d-flex flex-column flex-lg-row p-jc-between">
+                <div class="p-d-flex flex-column flex-lg-row">
+                    <!-- <span class="p-mr-2">
+                        <h5>Lũy kế sản lượng</h5>
+                    </span> -->
+                    <!-- <p-inputSwitch [(ngModel)]="filterSanLuong.checked" (onChange)="changeOpt($event)"></p-inputSwitch> -->
+                    <span class="p-ml-2">
+                        <h5>Sản lượng theo máy</h5>
+                    </span>
+                    <!-- <span class="p-ml-2">
+                        <p-dropdown [filter]="true" [options]="listCongDoan" styleClass="p-inputtext-sm"
+                            [(ngModel)]="filter.CongDoan" (onChange)="GetBieuDo(true)"></p-dropdown>
+                    </span>
+                    <span class="p-ml-2">
+                        <p-dropdown [filter]="true" [options]="listMay" styleClass="p-inputtext-sm"
+                            [(ngModel)]="filter.IddmMay" (onChange)="GetBieuDo()"></p-dropdown>
+                    </span> -->
+                </div>
+                <div class="p-d-flex flex-column flex-lg-row">
+                    <div style="display:table;height:100%">
+                        <!-- <a style="display: table-cell; vertical-align: middle;" href="javascript:void(0)">Xem bảng dữ
+                            liệu</a> -->
+                    </div>
+                </div>
+            </div>
+            <p-chart type="bar" [data]=monthlyConfig_luykesanluong [options]="option2"></p-chart>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,175 @@
+<div>
+    <p-toolbar styleClass=" p-p-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2"
+                (click)="chonHanhDong.toggle($event)"></button>
+            <p-menu #chonHanhDong [popup]="true" [model]="menuCapQuanLy"></p-menu>
+            <button pButton [label]="vung.Ten" icon="pi pi-chevron-down" iconPos="right"
+                (click)="chonVung.toggle($event)" class="p-button-sm p-button-secondary p-button-outlined right-icon"
+                pTooltip="Chọn công ty" showDelay="1000" tooltipPosition="bottom"></button>
+            <!-- <h6 class="my-auto mx-3">Tổng diện tích đất: {{TongDienTichDat|number:"0.0"}} m<sup>2</sup></h6> -->
+            <p-overlayPanel #chonVung>
+                <ng-template pTemplate>
+                    <!-- selectionMode="checkbox"  -->
+                    <p-tree [value]="vungs" [filter]="true" selectionMode="single" [(selection)]="selectedFile"
+                        (onNodeSelect)="nodeSelect($event)"></p-tree>
+                </ng-template>
+            </p-overlayPanel>
+            <button pButton pRipple label="Xuất excel" class="p-button-sm p-button-outlined p-ml-2 mr-3"
+                (click)="exportExcel()"></button>
+            <div class="p-d-flex p-flex-row">
+                <label class="my-auto mr-3">Đã bán, đã trả:</label>&nbsp;<p-checkbox [(ngModel)]="DaBan"
+                    (onChange)="GetListTaiSanDat(vung.ID,true)" binary="true" inputId="binary">
+                </p-checkbox>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="right">
+            <div class="p-inputgroup">
+                <input type="text" placeholder="Tìm kiếm" [(ngModel)]="keyWord" class="p-inputtext-sm"
+                    (keyup.enter)="GetListTaiSanDat(vung.ID,true)" pInputText />
+                <button type="button" pButton pRipple icon="pi pi-search" class="p-button-secondary p-button-text"
+                    (click)="GetListTaiSanDat(vung.ID,true)" pTooltip="Tìm kiếm" showDelay="1000"
+                    tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-filter" (click)="advSearch()"
+                    class="p-button-secondary p-button-text" #advSButton pTooltip="Tìm kiếm nâng cao" showDelay="1000"
+                    tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-refresh" class="p-button-secondary p-button-text"
+                    (click)="resetFilter()" pTooltip="Làm mới" showDelay="1000" tooltipPosition="bottom"></button>
+            </div>
+        </ng-template>
+    </p-toolbar>
+    <p-table [value]="thuaDats" styleClass="p-datatable-sm p-datatable-striped wrap-text" selectionMode="single"
+        [(selection)]="selecteThuaDat" dataKey="ID" (onRowSelect)="onThuaDatSelect($event)"
+        (onRowUnselect)="onThuaDatRemove()" [scrollable]="true">
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col style="width:50px">
+                <col style="width:30px;">
+                <col style="width:200px">
+                <col style="width:150px">
+                <!-- <col style="width:100px"> -->
+                <!-- <col style="width:50px">
+                <col style="width:100px"> -->
+                <!-- <col style="width:300px"> -->
+                <col style="width:300px">
+                <col style="width:120px">
+                <col style="width:120px">
+                <col style="width:300px">
+                <col style="width:250px">
+                <col style="width:150px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th></th>
+                <th>Đơn vị sử dụng</th>
+                <th>Tỉnh / TP</th>
+                <!-- <th>
+                    Tổng DT đất
+                </th> -->
+                <!-- <th>Số tờ</th>
+                <th>Số thửa</th> -->
+                <th>Địa chỉ</th>
+                <!-- <th>Thông tin người sở hữu</th> -->
+                <th>DT đất (m<sup>2</sup>)</th>
+                <th>Tổng diện tích đất xây dựng (m<sup>2</sup>)</th>
+                <th>Tình trạng pháp lý</th>
+                <th>Phương án sắp xếp</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-thuaDat let-i="rowIndex">
+            <tr [pSelectableRow]="thuaDat">
+                <td class="text-center">
+                    {{ 5 * (pagingThuaDat.CurrentPage - 1) + i + 1 }}
+                </td>
+                <td class="text-center" style="padding:0px !important">
+                    <img *ngIf="thuaDat.TaiSanDat.MaHanhDong===1" src="assets/logo/giaytophaply.jpg" width="30px" alt=""
+                        pTooltip="Chưa có giấy tờ pháp lý" showDelay="1000" tooltipPosition="bottom">
+                    <!-- <img *ngIf="thuaDat.TaiSanDat.MaHanhDong===2" src="/assets/logo/sodo.png" width="30px" alt=""> -->
+                    <img *ngIf="thuaDat.TaiSanDat.MaHanhDong===3" src="assets/logo/hopdong.jpg" width="30px" alt=""
+                        pTooltip="Có hợp đồng thuê" showDelay="1000" tooltipPosition="bottom">
+                    <img *ngIf="thuaDat.TaiSanDat.MaHanhDong===4" src="assets/logo/sodo.png" width="30px" alt=""
+                        pTooltip="Có sổ đỏ" showDelay="1000" tooltipPosition="bottom">
+                </td>
+                <td class="text-center">{{thuaDat.TaiSanDat.TenDanhMucDonVi}}</td>
+                <td class="text-center">
+                    {{thuaDat.TendmTinh}}
+                </td>
+                <!-- <td class="text-center">
+                    {{thuaDat.TaiSanDat.TongDienTichDat}}
+                </td> -->
+                <!-- <td class="text-center">{{ thuaDat.TaiSanDat.SoTo }}</td>
+                <td class="text-center">{{ thuaDat.TaiSanDat.SoThua }}</td> -->
+                <td>{{thuaDat.TaiSanDat.DiaChi +' - '+thuaDat.TaiSanDat.TendmPhuong+' - '+ thuaDat.TaiSanDat.TendmQuan}}
+                </td>
+                <!-- <td>{{ thuaDat.TaiSanDat.TenCongTy }}</td> -->
+                <td class="text-center">
+                    {{ thuaDat.TaiSanDat.DienTich|number:'0.0' }}
+                </td>
+                <td class="text-center">{{ thuaDat.TaiSanDat.TongDienTichDat|number:'0.0' }}</td>
+                <td>
+                    <p style="margin:0;margin-left:5px" *ngFor="let BienDong of thuaDat.BienDongs">
+                        - {{ BienDong.NoiDungBienDong }}
+                    </p>
+                </td>
+                <td>{{ thuaDat.TaiSanDat.TenPhuongAnSapXep }}</td>
+                <td class="text-center">
+                    <button pButton pRipple icon="pi pi-lock-open"
+                        class="p-button-sm p-button-rounded p-button-secondary p-button-text p-mr-2"
+                        (click)="khoaThuaDat(thuaDat)" *ngIf="thuaDat.TaiSanDat.ActionRole==='ACTION_ALL'"
+                        pTooltip="Khóa" showDelay="1000" tooltipPosition="bottom"></button>
+                    <button pButton pRipple icon="pi pi-pencil"
+                        class="p-button-sm p-button-rounded p-button-secondary p-button-text p-mr-2"
+                        (click)="edit(thuaDat)" *ngIf="thuaDat.TaiSanDat.ActionRole==='ACTION_ALL'"
+                        pTooltip="Chỉnh sửa thông tin" showDelay="1000" tooltipPosition="bottom"></button>
+                    <button pButton pRipple icon="pi pi-trash"
+                        class="p-button-sm p-button-rounded p-button-secondary p-button-text" (click)="delete(thuaDat)"
+                        *ngIf="thuaDat.TaiSanDat.ActionRole==='ACTION_ALL'" pTooltip="Xóa" showDelay="1000"
+                        tooltipPosition="bottom"></button>
+                    <button pButton pRipple icon="pi pi-lock"
+                        class="p-button-sm p-button-rounded p-button-secondary p-button-text p-mr-2"
+                        (click)="khoaThuaDat(thuaDat)" *ngIf="thuaDat.TaiSanDat.ActionRole==='ACTION_VIEW'"
+                        pTooltip="Mở khóa" showDelay="1000" tooltipPosition="bottom"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between p-flex-column p-flex-md-row" *ngIf="!advancedSearch">
+                <div class="p-d-flex p-flex-column p-flex-lg-row">Tổng số thửa đất
+                    {{pagingThuaDat.TotalItem }}&nbsp;-&nbsp;<h6 class="my-auto">Tổng diện tích đất:
+                        {{TongDienTichDat|number:"0.0"}} m<sup>2</sup></h6>
+                </div>
+                <p-paginator #paginator [rows]="5" [totalRecords]="pagingThuaDat.TotalItem"
+                    (onPageChange)="changePage($event)"></p-paginator>
+            </div>
+        </ng-template>
+    </p-table>
+</div>
+<div class="p-pt-3" *ngIf="selectedThuaDat?.ID!==undefined">
+    <p-tabView>
+        <p-tabPanel header="Thông tin chung">
+            <app-thong-tin-chung [item]="selectedThuaDat"></app-thong-tin-chung>
+        </p-tabPanel>
+        <p-tabPanel header="Hiện trạng sử dụng">
+            <app-hien-trang-su-dung [item]="selectedThuaDat.HienTrangSuDungs" [IDTaiSan]="selectedThuaDat.ID"
+                (itemChange)="changeHienTrang($event)"></app-hien-trang-su-dung>
+        </p-tabPanel>
+        <p-tabPanel header="Tài sản trên đất">
+            <app-tai-san-tren-dat [item]="selectedThuaDat.TaiSanDatNhas"></app-tai-san-tren-dat>
+        </p-tabPanel>
+        <p-tabPanel header="Ảnh hiện trạng">
+            <app-so-do [item]="selectedThuaDat.SoDos"></app-so-do>
+        </p-tabPanel>
+        <p-tabPanel header="Tình trạng pháp lý">
+            <app-tinh-trang-phap-ly [item]="selectedThuaDat.BienDongs"></app-tinh-trang-phap-ly>
+        </p-tabPanel>
+        <p-tabPanel header="Hồ sơ - văn bản pháp quy">
+            <app-ho-so-van-ban-phap-quy [item]="selectedThuaDat.HoSos"></app-ho-so-van-ban-phap-quy>
+        </p-tabPanel>
+        <p-tabPanel header="Thống kê thông tin thửa đất">
+            <app-thong-ke-thong-tin-thua-dat [item]="ThongKeThongTinThuaDat"></app-thong-ke-thong-tin-thua-dat>
+        </p-tabPanel>
+    </p-tabView>
+</div>

@@ -1,0 +1,115 @@
+<div class="p-grid">
+    <div class="p-col-12 " [ngClass]="{'p-lg-6': opt===''}">
+        Bản vẽ căn nhà
+        <div ng2FileDrop [uploader]="uploader" [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+            (fileOver)="fileOverBase($event)" class="well my-drop-zone">
+            Kéo thả tệp hoặc <div class="upload-btn-wrapper"><a class='p-ml-2'>Tải tệp lên</a><input type="file"
+                    ng2FileSelect [uploader]="uploader" multiple /></div>
+        </div>
+        <p *ngIf="uploader?.queue?.length!==0">Độ dài hàng chờ: {{ uploader?.queue?.length }}</p>
+        <table class="table" *ngIf="uploader?.queue?.length!==0">
+            <thead>
+                <tr>
+                    <th width="50%">Tên</th>
+                    <th>Kích thước</th>
+                    <th>Tiến trình</th>
+                    <th>Trạng thái</th>
+                    <th>Thao Tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td><strong>{{ item?.file?.name }}</strong></td>
+                    <td *ngIf="uploader.options.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td *ngIf="uploader.options.isHTML5">
+                        <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                    </td>
+                    <td nowrap>
+                        <!-- <button type="button" class="btn btn-success btn-xs"
+                                (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Tải lên
+                        </button> -->
+                        <!-- <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
+                            [disabled]="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Hủy
+                        </button> -->
+                        <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                            <span class="glyphicon glyphicon-trash"></span> Loại bỏ
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div *ngIf="uploader?.queue?.length!==0">
+            <div>
+                Tiến trình tổng:
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                [disabled]="!uploader.getNotUploadedItems().length">
+                <span class="glyphicon glyphicon-upload"></span> Tải lên tất cả
+            </button>
+            <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                [disabled]="!uploader.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span> Hủy tất cả
+            </button>
+            <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                [disabled]="!uploader.queue.length">
+                <span class="glyphicon glyphicon-trash"></span> Loại bỏ tất cả
+            </button>
+        </div>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th >Tên</th>
+                    <th *ngIf="opt!==''">Đơn vị lưu trữ</th>
+                    <th style="width: 50px;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of BanVe | isXoa;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>
+                        <div *ngIf="opt===''">
+                            {{item.TenGoc}}
+                        </div>
+                        <div *ngIf="opt!==''">
+                            <a href="javascript:void(0)" (click)="open(item.imgURL)">{{item.TenGoc}}</a>
+                        </div>
+                    </td>
+                    <td *ngIf="opt!==''"><input type="text" class="p-inputtext-sm" [(ngModel)]="item.NoiLuuTruGoc" pInputText /></td>
+                    <td class="text-center"><button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-text p-button-sm p-button-secondary" (click)="delete(i)"></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="p-col-12 p-lg-6" *ngIf="opt===''">
+        <ng-container *ngIf="show">
+            <p-galleria [value]="BanVe|isXoa" [responsiveOptions]="responsiveOptions"
+                [containerStyle]="{'max-width': '100%'}" [numVisible]="5">
+                <ng-template pTemplate="item" let-item>
+                    <img [src]="item.imgURL" style="width: 50%; display: block;" />
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="p-grid p-nogutter p-justify-center">
+                        <img [src]="item.imgURL" width="100px" height="100px" />
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </ng-container>
+    </div>
+</div>

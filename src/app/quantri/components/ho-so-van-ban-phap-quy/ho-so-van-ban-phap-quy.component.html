@@ -1,0 +1,54 @@
+<div>
+        <p-table [value]="items" styleClass="p-datatable-sm wrap-text p-datatable-striped" [scrollable]="true">
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                    <col style="width:50px">
+                    <col *ngFor="let col of cols" [ngStyle]="{width:col.width}" >
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th *ngFor="let header of cols">
+                        {{header.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        {{ 10 * (paging.CurrentPage - 1) + i + 1 }}
+                    </td>
+                    <td class="text-center">
+                        {{getLabel(item.IdLoaiVanBan)}}
+                    </td>
+                    <td class="text-center">
+                        {{item.GhiChu}}
+                    </td>
+                    <td class="text-center">
+                        {{item.TenVanBan}}
+                    </td>
+                    <td class="text-center">
+                        {{item.CoQuanBanHanh}}
+                    </td>
+                    <td class="text-center">
+                        {{item.SoVanBan}}
+                    </td>
+                    <td class="text-center">
+                        {{item.NgayQuyetDinhUnix > 0?(item.NgayQuyetDinh|date:'dd/MM/yyyy'):''}}
+                    </td>
+                    <td class="text-center">
+                        {{item.NoiLuuTruGoc}}
+                    </td>
+                    <td class="text-center">
+                       <a href="javascript:void(0)" (click)="download(item.Link)">{{item.TenGoc}}</a>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    Tổng số văn bản {{items.length}}.
+                </div>
+            </ng-template>
+        </p-table>
+</div>

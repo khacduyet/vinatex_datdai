@@ -1,0 +1,73 @@
+<div class="navbar">
+    <div class="menu">
+        <div style="padding-right: 15px; margin:auto 0px">
+            <p-button type="text" (click)="display = true" icon="pi pi-bars" styleClass="p-button-text p-button-lg">
+            </p-button>
+            <p-overlayPanel #listNoti [style]="{width: '400px',left:'0px',padding:'0px'}" styleClass="zero-padding">
+                <ng-template pTemplate>
+                    <div style="text-transform: uppercase; color: white; background-color: royalblue;padding: 10px 15px;"
+                        >Bạn có {{newNoti}} thông báo chưa xem</div>
+                    <ul class="list-noti">
+                        <li *ngFor="let noti of listNotis" class="noti-item" [ngClass]="{'read': noti.isRead}">
+                            <div class="d-flex flex-row">
+                                <div>
+                                    <button pButton pRipple type="button" icon="pi pi-bell"
+                                        class="p-button-rounded " [ngClass]="{'p-button-success': noti.isRead,'p-button-warning':!noti.isRead}"></button>
+                                    <!-- <button pButton pRipple type="button" icon="pi pi-bell" class="p-button-rounded p-button-warning"></button> -->
+                                </div>
+                                <div style="flex:1; padding-left: 15px;" (click)="readOne(noti)">
+                                    <span>{{noti.TieuDe}}</span><br>
+                                    <span style="color:#777">{{noti.NoiDung}}</span><br>
+                                    <span style="color:#777">Thời gian: {{noti.Created|date:'dd/MM/yyyy hh:ss'}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="p-d-flex p-flex-row p-jc-between" style="padding: 10px 15px;">
+                        <div class="d-flex flex-row">
+                            <div style="display: table;height: 100%;">
+                                <a href="javascript:void(0)" (click)="GetMoreNotis()"
+                                    style="display: table-cell;vertical-align: middle;">Xem thêm</a>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row">
+                            <button pButton pRipple type="button" icon="pi pi-check"
+                                class="p-button-rounded p-button-success p-button-sm"
+                                (click)="readedAllNoti()"></button>
+                            <div style="display: table;height: 100%;"><span
+                                    style="display: table-cell;vertical-align: middle;">Đã đọc tất cả</span></div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-overlayPanel>
+        </div>
+        <div style="padding-right: 15px; margin:auto 0px; position: relative;" *ngIf="false">
+            <p-button type="text" icon="pi pi-bell" styleClass="p-button-text p-button-lg"
+                (click)="open($event)"></p-button>
+            <div class="badge" (click)="open($event)" *ngIf="newNoti>0">{{newNoti}}</div>
+        </div>
+        <!-- <div>
+            <img id='logo' src="https://vinatex.com.vn/wp-content/uploads/2017/09/logo.png" style="height: 50px;">
+        </div> -->
+    </div>
+    <div>
+        <h2 style="font-weight: 500; text-transform: uppercase;" id="Name">{{OSName}}</h2>
+    </div>
+    <div style="margin: auto 0px;" class="d-flex flex-row">
+        <div style="width:200px;" *ngIf="showDropDown">
+            <p-dropdown [filter]="true" [options]="listNhaMay" placeholder="Chọn nhà máy" styleClass="p-inputtext-sm"
+                [(ngModel)]="IdNhaMay" (onChange)="setGlobalNhaMay($event)"></p-dropdown>
+        </div>
+        <p-splitButton [label]="userInfo.UserName" [model]="userBtn" styleClass="p-button-text ml-3"></p-splitButton>
+    </div>
+</div>
+<p-sidebar [(visible)]="display" [showCloseIcon]="false" [blockScroll]="true">
+    <div style="width: 100%; padding:20px; display: flex; justify-content: center; align-items: center;"
+        *ngIf="display">
+        <img src="assets/logo/LogoWhite.png" width="100px">
+    </div>
+    <p-panelMenu [model]="menu"></p-panelMenu>
+</p-sidebar>
+<div class="content">
+    <router-outlet></router-outlet>
+</div>

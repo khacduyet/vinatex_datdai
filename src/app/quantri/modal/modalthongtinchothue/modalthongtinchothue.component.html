@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Mã <span *ngIf="opt==='doitacmoi'" class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.Ma" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tên <span *ngIf="opt==='doitacmoi'" class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.Ten" pInputText />
+            </div>
+        </div>
+        <!-- <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tên công ty <span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.TenCongTy" pInputText />
+            </div>
+        </div> -->
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Địa chỉ:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.DiaChi" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Số GPKD:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.SoGiayPhepKinhDoanh" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Ngày cấp GPKD:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" *ngIf="opt==='doitacmoi'" [locale]="lang" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [showIcon]="true" [(ngModel)]="item.NgayCapGiayPhep"
+                    inputId="icon" placeholder="dd/mm/yyyy">
+                </p-calendar>
+                <input type="text" class="p-inputtext-sm" *ngIf="opt!=='doitacmoi'" [disabled]="true" (keyup.enter)="accept()" [ngModel]="item.NgayCapGiayPhep|date:'dd/MM/yyyy'" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Người đại diện pháp luật:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.TenNguoiDaiDienPhapLuat" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Chức vụ:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.ChucVu" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Số tài khoản:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-inputNumber [(ngModel)]="item.SoTaiKhoan" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" locale="vi-VN"></p-inputNumber>
+                <!-- <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.SoTaiKhoan" pInputText /> -->
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Địa chỉ ngân hàng:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.DiaChiNganHang" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Ghi chú:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [disabled]="opt!=='doitacmoi'" (keyup.enter)="accept()" [(ngModel)]="item.GhiChu" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex" *ngIf="title!=='Thông tin người sử dụng'">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Giá cho thuê:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="thongTinHopDong.GiaChoThue" [minFractionDigits]="2" locale="vi-VN"></p-inputNumber>
+                    <span class="p-inputgroup-addon">Triệu đồng</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex" *ngIf="title!=='Thông tin người sử dụng'">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Số năm cho thuê:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="thongTinHopDong.SoNamThue" max="9999" [useGrouping]="false"></p-inputNumber>
+                    <span class="p-inputgroup-addon">năm</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex" *ngIf="title!=='Thông tin người sử dụng'">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tài liệu đính kèm:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <div class="p-inputgroup">
+                    <input type="text" pInputText class="p-inputtext-sm"
+                        [(ngModel)]="thongTinHopDong.TepDinhKemHopDong.TenGoc" disabled>
+                    <button type="button" pButton pRipple icon="pi pi-upload" class="p-button-sm p-button-text p-button-secondary"
+                        (click)="taiLenFileDinhKem()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>

@@ -1,0 +1,29 @@
+.my-drop-zone {
+    border: dashed 2px #49c2ee;
+}
+
+.nv-file-over {
+    border: dotted 2px green;
+}
+
+.well {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: #d5f3fb;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.upload-btn-wrapper input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}

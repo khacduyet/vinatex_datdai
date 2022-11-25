@@ -1,0 +1,157 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} tài sản gắn liền với đất</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"
+        ngbAutofocus>
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Tên tài sản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.Ten" (ngModelChange)="item.Ten=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Loại tài sản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [options]="listLoaiTaiSan" [filter]="true" placeholder="Chọn loại" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.LoaiTaiSan" optionLabel="Ten"></p-dropdown>
+            </div>
+        </div>
+
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">DT đất xây dựng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.DienTichXayDung" [minFractionDigits]="2"  locale="vi-VN"></p-inputNumber>
+                    <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">DT sàn:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.DienTichSan"  [minFractionDigits]="2" locale="vi-VN"></p-inputNumber>
+                    <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Kết cấu:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.KetCau" (ngModelChange)="item.KetCau=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Số tầng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-inputNumber [(ngModel)]="item.SoTang" locale="vi-VN"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Cấp/hạng CT:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [options]="listCapHangCongTrinh" [filter]="true" placeholder="Chọn cấp/hạng" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.tempCapHang" optionLabel="Ten"></p-dropdown>
+                <!-- <input type="text" class="p-inputtext-sm" [(ngModel)]="item.CapHang" pInputText /> -->
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Năm xây dựng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-inputNumber [(ngModel)]="item.NamXayDung" max="9999" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Số năm đã sử dụng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-inputNumber [(ngModel)]="item.SoNamSuDung" max="9999" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Số năm còn lại sử dụng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-inputNumber [(ngModel)]="item.SoNamSuDungConLai" max="9999" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Tuổi thọ:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-inputNumber [(ngModel)]="item.TuoiTho" max="9999" [useGrouping]="false"></p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Tình trạng tài sản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [options]="listTinhTrangTaiSan" [filter]="true" placeholder="Chọn tình trạng" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.TinhTrangTaiSan" optionLabel="Ten"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Nguyên giá:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.NguyenGia" [minFractionDigits]="2"  locale="vi-VN"></p-inputNumber>
+                        <span class="p-inputgroup-addon">Triệu đồng</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Thời gian khấu hao:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.ThoiGianKhauHao" [useGrouping]="false" locale="vi-VN"></p-inputNumber>
+                        <span class="p-inputgroup-addon">năm</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Giá trị còn lại:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.GiaTriConLai"  [minFractionDigits]="2" locale="vi-VN"></p-inputNumber>
+                        <span class="p-inputgroup-addon">Triệu đồng</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 d-flex flex-row p-p-0 my-auto">Hình thức sử dụng <div
+                    style="flex:1; border-bottom:1px solid #ced4da"></div></label>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Sử dụng chung:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.DienTichSuDungChung" locale="vi-VN" [minFractionDigits]="2"></p-inputNumber>
+                    <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Sử dụng riêng:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [(ngModel)]="item.DienTichSuDungRieng" locale="vi-VN" [minFractionDigits]="2"></p-inputNumber>
+                    <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p-tabView>
+        <p-tabPanel header="Hồ sơ - văn bản pháp quy">
+            <app-crud-hsvb-phap-quy [TepDinhKems]="item.TepDinhKems"></app-crud-hsvb-phap-quy>
+        </p-tabPanel>
+        <p-tabPanel header="Bản vẽ hoàn công">
+            <app-crud-so-do [BanVe]="item.BanVe" [opt]="with"></app-crud-so-do>
+        </p-tabPanel>
+    </p-tabView>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Lưu" icon="pi pi-plus" class="p-button-sm p-mr-2"(click)="accept('add')"></button>
+    <button pButton pRipple label="Lưu và Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="accept('more')"></button>
+    <button pButton pRipple label="Thoát" icon="pi pi-trash"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>

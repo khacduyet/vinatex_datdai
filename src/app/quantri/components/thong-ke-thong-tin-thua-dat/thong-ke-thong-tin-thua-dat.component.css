@@ -1,0 +1,23 @@
+table.timeline th,td{
+    padding:20px
+}
+table.timeline th{
+    border-bottom: 1px solid #e5e5e5;
+}
+table.timeline tr>td:nth-child(1){
+    border-right:1px solid #e5e5e5;
+}
+table.timeline tr>td:nth-child(1) span{
+    font-size: 60px; 
+    position: absolute;
+    color:#49c2ee;
+    transform:translate(12px,-30px);
+}
+table.timeline tr>td:nth-child(1) div.date{
+    transform: translateY(-50%);
+}
+table.timeline p{
+    margin-bottom: 0;
+    padding-left:10px;
+    border-left:3px solid #2667e8;
+}

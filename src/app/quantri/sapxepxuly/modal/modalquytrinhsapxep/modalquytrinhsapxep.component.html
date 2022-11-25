@@ -1,0 +1,98 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} quy trình sắp xếp</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-flex-row p-jc-between">
+        <div class="modal-bt p-mb-4 ">
+            <button pButton pRipple type="button" label="Quay lại" class="p-mr-2 p-button-sm"
+                (click)="activeModal.dismiss('close')" ></button>
+            <button pButton pRipple type="button" label="Ghi lại" class="p-mr-2 p-button-sm "
+                (click)="GhiLai()" *ngIf="checkbutton.Ghi"></button>
+            <button pButton pRipple type="button" label="Xóa" class="p-mr-2 p-button-sm" *ngIf="checkbutton.Xoa" (click)="XoaQuyTrinh()"></button>
+            <button pButton pRipple type="button" label="Không duyệt" class="p-mr-2 p-button-sm"
+                (click)="KhongDuyet()" *ngIf="checkbutton.KhongDuyet"></button>
+            <button pButton pRipple type="button" label="Chuyển duyệt" class="p-mr-2 p-button-sm"
+                (click)="ChuyenDuyet()" *ngIf="checkbutton.ChuyenTiep"></button>
+            <button pButton pRipple type="button" label="Kết xuất" class="p-mr-2 p-button-sm" ></button>
+        </div>
+        <div>Số quy trình: {{item.SoQuyTrinh}}</div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-12 p-mb-3 p-p-0 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Nội dung:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.NoiDung" pInputText />
+            </div>
+        </div>
+        <!-- <div class="p-col-12 p-lg-4 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tài liệu đính kèm:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <div class="p-inputgroup">
+                    <div type="text" pInputText class="p-inputtext-sm" >{{item.TepDinhKems.length!==0?item.TepDinhKems[0]?.TenGoc:''}}</div>
+                    <button type="button" pButton pRipple icon="pi pi-upload" class="p-button-sm p-button-text p-button-secondary"
+                        (click)="taiLenFileDinhKem()"></button>
+                </div>
+            </div>
+        </div> -->
+        <div class="p-col-12 p-p-0 d-flex flex-column">
+            <div class="p-d-flex p-flex-row p-jc-between p-mb-3">
+                <button pButton pRipple type="button" label="Chọn danh sách thửa đất" class="p-mr-2 p-button-sm" (click)="chonThuaDat()"></button>
+            </div>
+            <p-table [value]="item.listTaiSanQuyTrinh" styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                       <col style="width:50px">
+                       <col style="width: 300px;">
+                       <col style="width: 100px;">
+                       <col style="width: 100px;">
+                       <col>
+                       <col>
+                       <col>
+                       <col style="width: 200px;">
+                       <col>
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th rowspan="2">STT</th>
+                        <th rowspan="2">Đơn vị/Địa chỉ nhà đất</th>
+                        <th colspan="2">Diện tích (m2)</th>
+                        <th rowspan="2">Hồ sơ pháp lý</th>
+                        <th rowspan="2">Mục đích sử dụng của cơ sở nhà, đất được giao/cho thuê</th>
+                        <th rowspan="2">Hiện trạng sử dụng</th>
+                        <th rowspan="2">Phương án đề xuất</th>
+                        <th rowspan="2">Ghi chú</th>
+                    </tr>
+                    <tr>
+                        <th>Đất</th>
+                        <th>Nhà</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td class="text-center">{{i + 1}}</td>
+                        <td >{{item.NoiDung}}</td>
+                        <td class="text-center">{{item.DienTichDat}}</td>
+                        <td class="text-center">{{item.DienTichNha}}</td>
+                        <td class="text-center"><p *ngFor="let HoSo of item.HoSos" style="margin:0">
+                            _{{HoSo.TenVanBan}}
+                          </p></td>
+                        <td class="text-center">{{item.TendmMucDichSuDung}}</td>
+                        <td >{{item.HienTrangSuDung}}</td>
+                        <td ><p-dropdown [filter]="true" [options]="listPhuongAnSapXep" placeholder="Chọn phương án" styleClass="p-inputtext-sm"
+                            [(ngModel)]="item.tempPhuongAnSapXep" (ngModelChange)="changePhuongAnDeXuat($event,item)" optionLabel="Ten"></p-dropdown></td>
+                        <td class="text-center"><input pInputText type="text" [(ngModel)]="item.GhiChu"></td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <!-- <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+        (click)="activeModal.dismiss()"></button> -->
+</div>

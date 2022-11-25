@@ -1,0 +1,299 @@
+/* You can add global styles to this file, and also import other style files */
+
+:root {
+    --primary-color: #467fe5 !important;
+}
+
+th {
+    text-align: center;
+}
+
+.wrap-text.p-datatable td:not(.date) {
+    word-wrap: break-word !important;
+}
+
+.wrap-text.p-datatable-sm td:not(.date) {
+    word-wrap: break-word !important;
+}
+
+/* .unset-width.p-datatable-sm table{
+    width: unset !important;
+} */
+
+.p-selectable-row.p-highlight button span {
+    color: white !important;
+}
+
+html {
+    font-size: 14px;
+    background-color: #f5f6f7;
+}
+
+body {
+    margin: 0px;
+    font-family: Arial, sans-serif;
+}
+
+label {
+    font-weight: 500;
+    /* margin-right: 10px; */
+}
+
+.modal-content {
+    border-radius: 1rem !important;
+    border: 0px !important;
+    -webkit-box-shadow: 7px 7px 14px 0px rgba(0, 0, 0, .5);
+    -moz-box-shadow: 7px 7px 14px 0px rgba(0, 0, 0, .5);
+    box-shadow: 7px 7px 14px 0px rgba(0, 0, 0, .5);
+}
+
+@media (min-width: 576px) {
+    .modal-dialog.modal-fullscreen {
+        max-width: 90% !important;
+    }
+}
+
+@media (max-width: 576px) {
+    h2#Name {
+        font-size: 14px;
+    }
+}
+
+.modal-dialog.modal-fullscreen-100 {
+    max-width: 99%;
+}
+
+p-table:not(.blv) th {
+    background-color: #828282 !important;
+    border-color: #828282 !important;
+    color: white !important
+}
+
+p-table .p-datatable-gridlines th {
+    border-color: white !important;
+}
+
+p-sidebar .p-sidebar {
+    background-color: #243a92 !important;
+    padding: 0px !important;
+}
+
+p-panelmenu .p-panelmenu-content {
+    background-color: #243a92 !important;
+}
+
+p-panelmenu * {
+    color: white !important;
+}
+
+.p-panelmenu .p-panelmenu-panel .p-panelmenu-header>a {
+    border-radius: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.p-panelmenu .p-panelmenu-panel .p-panelmenu-header>a>span.pi-chevron-down, span.pi-chevron-right {
+    order: 2 !important;
+}
+
+.p-panelmenu .p-panelmenu-panel .p-panelmenu-header>a>.p-menuitem-text {
+    flex: 1
+}
+
+p-panel .p-panelmenu .p-panelmenu-content .p-menuitem .p-menuitem-link:not(.p-disabled):hover {
+    background-color: #2a53a5 !important;
+}
+
+a.p-panelmenu-header-link:hover, a.p-menuitem-link:hover {
+    background-color: #2a53a5 !important;
+}
+
+p-dropdown .p-dropdown {
+    width: 100% !important;
+    border-radius: 0px !important;
+    border: 1px solid transparent !important;
+    border-right: none !important;
+    border-bottom: 1px solid #ced4da !important;
+}
+
+.p-inputtext, .p-inputtext-sm.p-inputtext {
+    width: 100% !important
+}
+
+p-table th {
+    text-align: center !important;
+}
+
+.p-p-3.d-flex.flex-column.flex-lg-row {
+    padding-top: 0px !important;
+}
+
+.p-inputgroup .p-button-text {
+    border-radius: 0px !important;
+    border-bottom: 1px solid #ced4da !important;
+}
+
+.p-inputgroup button.p-button-icon-only {
+    background-color: white !important;
+}
+
+p-calendar button.p-datepicker-trigger {
+    background-color: white !important;
+}
+
+.p-calendar {
+    display: flex !important;
+    min-width: 110px;
+}
+
+p-calendar>span>button {
+    padding: 0.3rem 0 !important;
+    color: #607D8B !important;
+    background-color: transparent !important;
+    border-radius: 0px !important;
+    border: none !important;
+    border-bottom: 1px solid #ced4da !important;
+}
+
+.p-inputgroup input:first-child {
+    border-radius: 0px !important;
+}
+
+.no-content.p-tabview .p-tabview-panels {
+    padding: 0px !important;
+}
+
+.p-toggleable-content.ng-trigger {
+    padding-left: 44px !important
+}
+
+.p-inputgroup button:last-child {
+    border-radius: 0px !important;
+}
+
+.p-inputgroup .p-inputgroup-addon {
+    border: none !important;
+    border-bottom: 1px solid #ced4da !important;
+    background-color: transparent !important;
+}
+
+.p-inputgroup p-inputnumber, p-inputnumber .p-inputnumber {
+    width: 100% !important;
+    flex: 1;
+}
+
+p-inputnumber input.p-inputnumber-input {
+    text-align: right;
+}
+
+tr.normal>th {
+    color: black !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+tr.normal-blv>th {
+    color: black !important;
+    background-color: transparent !important;
+    border-color: #999999;
+}
+
+.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    -webkit-box-orient: vertical;
+}
+
+.p-grid {
+    margin: 0px !important;
+}
+
+p-sidebar .p-sidebar {
+    overflow: auto !important;
+}
+
+.right-icon span.pi-chevron-down {
+    padding-left: 5px;
+    order: 1
+}
+
+.p-calendar .p-datepicker {
+    min-width: 300px !important;
+}
+
+p-table.blv th {
+    background-color: white !important;
+    border-color: #999999 !important;
+    color: black !important;
+}
+
+.p-menu.p-menu-overlay {
+    min-width: 200px !important;
+}
+
+.right>.p-overlaypanel .p-overlaypanel:before {
+    margin-right: -10px !important;
+}
+
+.right>.p-overlaypanel .p-overlaypanel:after, .p-overlaypanel:before {
+    right: 1.25rem !important
+}
+
+.p-overlaypanel .p-overlaypanel-content {
+    max-height: 500px !important;
+    overflow: scroll !important;
+}
+
+.table thead th {
+    vertical-align: middle !important;
+}
+
+.print {
+    display: none;
+}
+
+@media print {
+    * {
+        font-size: 21px;
+    }
+    .no-print, .no-print * {
+        display: none !important;
+    }
+    .print {
+        display: block !important;
+    }
+    .print.pt-sign{
+        padding-top: 100px;
+    }
+    .modal-backdrop {
+        background-color: white !important;
+        opacity: 1 !important;
+    }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+span.required {
+    font-size: 16px;
+    color: red;
+}
+
+.zero-padding .p-overlaypanel-content {
+    padding: 0px !important;
+}
+
+#ThongLuongChart>div>svg>g>g:nth-child(2)>g:nth-child(2)>g>g:nth-child(3) {
+    display: none !important;
+}
+
+.p-button.p-button-xs {
+    font-size: 0.875rem;
+    padding: 0.1rem !important;
+}

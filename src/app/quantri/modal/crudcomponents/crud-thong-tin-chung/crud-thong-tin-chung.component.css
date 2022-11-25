@@ -1,0 +1,52 @@
+.myProgress {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: row;
+  background-color: #ddd;
+}
+
+.myBar {
+  /* width: 1%; */
+  background-color: #ddd;
+}
+
+.myBar1 {
+  /* width: 1%; */
+  height: 10px;
+  color: white;
+  background-color: #F15516;
+  text-align: center;
+}
+
+.myBar2 {
+  /* width: 1%; */
+  height: 10px;
+  background-color: #A1F6A5;
+  text-align: center;
+}
+.ruler{
+  height: 10px;
+  border-left: 1px solid #333;
+  border-right: 1px solid #333;
+}
+.ruler>div{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 10px;
+  border-right: 1px solid #333;
+}
+.ruler>div>div{
+  transform: translateX(50%) translateY(-20px);
+}
+.mocNam{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.tuNam{
+  transform:translateX(-50%)  
+}
+.denNam{
+  transform:translateX(50%)  
+}

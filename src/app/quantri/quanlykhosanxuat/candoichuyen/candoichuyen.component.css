@@ -1,0 +1,38 @@
+ul {
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+li {
+    position: relative;
+    background-color: white;
+    display: inline-block;
+    border: 1px solid #ccc;
+    
+    width: calc(100% / 7);
+}
+li.dates{
+height: 100px !important;
+}
+li.none::content{
+    color: transparent;
+    background-color: transparent;
+    border: 1px solid transparent;
+    cursor: unset;
+    /* display: none; */
+}
+li.dates:hover{
+    background-color: #ccc;
+    cursor: pointer;
+}
+li.days {
+    font-weight: bold;
+    text-align: center;
+}
+li.grey {
+    color: #ccc;
+}
+/* li:hover {
+    background-color: #ccc;
+} */

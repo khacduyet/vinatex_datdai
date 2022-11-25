@@ -1,0 +1,21 @@
+
+    .p-grid>div {
+        text-align: center;
+        padding:5px;
+        /* background-color: white; */
+    }
+    .p-grid>div>div{
+        padding:5px;
+        height: 100%;
+        border-radius: 5px;
+        background-color: white;
+    }
+
+:host ::ng-deep th {
+    text-align: center !important;
+}
+
+:host ::ng-deep .p-tree {
+    padding: 0px !important;
+    border: none !important;
+}

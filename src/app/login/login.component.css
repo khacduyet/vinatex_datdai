@@ -1,0 +1,49 @@
+.fulldivbg {
+    /* background-image: url(https://www.primefaces.org/primeng/showcase/assets/showcase/images/galleria/galleria1.jpg); */
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position:center;
+    width: 100%;
+    height: calc( 100vh - 54px);
+    filter: drop-shadow(5px 5px 20px rgba(0, 0, 0, 0.2));
+}
+
+.p-galleria .p-galleria-item-nav .p-galleria-item-prev-icon, .p-galleria .p-galleria-item-nav .p-galleria-item-next-icon {
+    color: white !important
+}
+
+.logo-abs {
+    position: absolute;
+    z-index: 5;
+    transform: translateX(38px) translateY(38px);
+}
+
+.login-content {
+    /* position: absolute;
+    top: 50%;
+    transform: translate(100%, -50%); */
+}
+
+.company-name {
+    color: #2F4FA4;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 150%;
+}
+
+.software-name {}
+
+.login-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 44px;
+    color: #29398C;
+}
+.login-form-container{
+    margin-top: 33px;
+    margin-bottom: 76px;
+    padding:30px;
+    width:370px
+}

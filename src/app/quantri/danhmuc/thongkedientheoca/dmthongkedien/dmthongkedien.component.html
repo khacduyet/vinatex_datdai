@@ -1,0 +1,110 @@
+<div class="p-mb-3 p-mt-3">
+    <h4 style="color:#1f2779">Thống kê điện</h4>
+</div>
+<div class="p-d-flex p-ai-center p-jc-between p-mb-3">
+    <div class="p-d-flex p-flex-row">
+        <!-- <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="addPhieuBong()"
+            *ngIf="checkQuyen.ThemMoi"></button> -->
+    </div>
+    <div class="p-d-flex p-flex-row">
+        <!-- <div class="p-mr-2">
+            <p-dropdown [options]="listLoaiPhuongAn" placeholder="Chọn phương án" styleClass="p-inputtext-sm"
+                [(ngModel)]="filter.LoaiPhuongAn" optionLabel="name" [showClear]="true"></p-dropdown>
+        </div> -->
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter.TuNgay" inputId="icon" placeholder="Từ ngày" (onSelect)="GetList()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter.DenNgay" inputId="icon" placeholder="Đến ngày" (onSelect)="GetList()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listnhamay" placeholder="Chọn nhà máy" [(ngModel)]="filter.IddmItem"
+                styleClass="p-inputtext-sm" (onChange)="GetList()"></p-dropdown>
+        </div>
+        <div class="p-inputgroup" style="width:200px">
+            <input type="text" placeholder="Tìm kiếm" class="p-inputtext-sm" pInputText (keyup.enter)="GetList()"
+                [(ngModel)]="filter.KeyWord" />
+            <button type="button" pButton pRipple icon="pi pi-refresh"
+                class="p-button-secondary p-button-sm p-button-text" (click)="resetFilter()"></button>
+        </div>
+
+    </div>
+</div>
+<div class="p-mt-3">
+    <p-table [value]="items.lstNgay" styleClass="p-datatable-sm p-datatable-striped" [scrollable]="true">
+        <!-- <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col style="width:50px">
+                <col *ngFor="let col of cols" [ngStyle]="{width:col.width}">
+                <col style="width: 100px;">
+            </colgroup>
+        </ng-template> -->
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="text-center" style="width: 4rem;">STT</th>
+                <th class="text-center">Ngày</th>
+                <th class="text-center">Phân xưởng</th>
+                <th class="text-center">Tổng cộng</th>
+                <th *ngFor="let item of items.lstCaSanXuat" class="text-center">
+                    {{item.Ten}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr>
+                <td class="text-center" style="width: 4rem;">
+                    {{ i + 1 }}
+                </td>
+                <td>
+                    {{item.NgayNhap|date : 'dd/MM/yyyy'}}
+                </td>
+                <td>
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        <div class="p-d-flex p-flex-row">
+                            <div *ngFor="let col of item.lstTenPhanXuong; let i = index">
+                                {{col}},
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        <div class="p-d-flex p-flex-row">
+                            <div *ngFor="let col of item.lstTongSoDienPhanXuong; let i = index">
+                                {{col|number:'0.0'}},
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td *ngFor="let col of item.lstTongSoDienPhanXuong_Ca; let i = index">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        <div class="p-d-flex p-flex-row">
+                            <div *ngFor="let colchil of col.lstTongSoDienPhanXuong">
+                                {{colchil|number:'0.0'}},
+                            </div>
+                        </div>
+                        <div class="p-d-flex p-flex-row">
+                            <i class="pi pi-pencil" (click)="update(col)"
+                                *ngIf='col.lstTongSoDienPhanXuong?.length>0'></i>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- <td class="text-center">
+                    <button pButton pRipple type="button" icon="pi pi-pencil"
+                        class="p-button-text p-button-sm p-button-secondary p-mr-2" (click)="update(item.Id)"></button>
+                </td> -->
+            </tr>
+        </ng-template>
+        <!-- <ng-template pTemplate="summary">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                Tổng số bản ghi {{paging.TotalItem}}.<p-paginator #paginator [totalRecords]="paging.TotalItem"
+                    [rows]="25" (onPageChange)="changePage($event)"></p-paginator>
+            </div>
+        </ng-template> -->
+    </p-table>
+</div>

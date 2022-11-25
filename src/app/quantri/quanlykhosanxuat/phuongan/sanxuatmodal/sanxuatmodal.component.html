@@ -1,0 +1,435 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} phương án xuất bông</h5>
+    <div class="p-d-flex p-flex-row">
+        <div class="mr-2">Số quy trình:&nbsp;{{item.SoQuyTrinh}}</div>
+        <div class="mr-2">TG tạo:&nbsp;{{item.Created|date:'dd/MM/yyyy'}}</div>
+        <div class="mr-2">TG duyệt:&nbsp;{{item.Modified|date:'dd/MM/yyyy'}}</div>
+    </div>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="_activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-flex-row p-jc-between">
+        <div class="modal-bt p-mb-4 ">
+            <button pButton pRipple type="button" label="Quay lại" class="p-mr-2 p-button-sm"
+                (click)="_activeModal.dismiss('close')"></button>
+            <button pButton pRipple type="button" label="Xuất phương án sản xuất" class="p-mr-2 p-button-sm " (click)="GhiLai()"
+                ></button>
+                <!-- *ngIf="checkbutton.Ghi" -->
+            <button pButton pRipple type="button" label="Xóa" class="p-mr-2 p-button-sm" *ngIf="checkbutton.Xoa"
+                (click)="XoaQuyTrinh()"></button>
+            <button pButton pRipple type="button" label="Không duyệt" class="p-mr-2 p-button-sm" (click)="KhongDuyet()"
+                *ngIf="checkbutton.KhongDuyet"></button>
+            <button pButton pRipple type="button" label="Chuyển duyệt" class="p-mr-2 p-button-sm"
+                (click)="ChuyenDuyet()" *ngIf="checkbutton.ChuyenTiep"></button>
+            <!-- <button pButton pRipple type="button"  label="Kết xuất" class="p-mr-2 p-button-sm"></button> -->
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-4 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Triển khai kế hoạch:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-dropdown [filter]="true" [options]="listTrienKhaiKeHoach" placeholder="Chọn triển khai kế hoạch"
+                    styleClass="p-inputtext-sm" [(ngModel)]="item.IdTrienKhaiKeHoachSanXuat" disabled></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tổng số kiện:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-inputNumber locale="vi-VN" [ngModel]="item.TongSoKien" disabled>
+                </p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Khối lượng bông cần dùng:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [ngModel]="item.KhoiLuongBong/1000||null" mode="decimal" [minFractionDigits]="2"
+                        locale="vi-VN" disabled></p-inputNumber>
+                    <span class="p-inputgroup-addon">tấn</span>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="p-col-12 d-flex flex-row">
+            <button pButton pRipple type="button" label="Danh sách mặt hàng" class="p-mr-2 p-button-sm"
+                (click)="chonHangHoa()"></button>
+            <button pButton pRipple type="button" label="Danh sách nguyên liệu" class="p-mr-2 p-button-sm"
+                (click)="chonLoBong()"></button>
+        </div> -->
+        <div class="p-col-12 d-flex flex-row">
+            <h3>
+                Sử dụng bông theo kế hoạch triển khai: {{labelBong.BR|number:'0.1-1'}}% Brazil +
+                {{labelBong.M|number:'0.1-1'}}% Mỹ + {{labelBong.TP|number:'0.1-1'}}% Tây Phi +
+                {{labelBong.Hoi|number:'0.1-1'}}% Hồi
+            </h3>
+        </div>
+        <div class="p-col-12 p-p-0 pintable-container" voiPintable [pinnedCols]="1">
+            <table>
+                <thead>
+                    <tr>
+                        <th rowspan="3" class="tc-w-151">
+                            Thành phần bông
+                        </th>
+                        <th rowspan="3" class="tc-w-121">
+                            Số hợp đồng
+                        </th>
+                        <th rowspan="3" class="tc-w-60">
+                            Giá bông
+                        </th>
+                        <th rowspan="3" class="tc-w-80">TLBQ Kiện</th>
+                        <th rowspan="3" class="tc-w-121">
+                            Giá USD / kiện
+                        </th>
+                        <th rowspan="3" class="tc-w-60">
+                            Neps bông
+                        </th>
+                        <th colspan="9">Chất lượng bông</th>
+                        <!-- <th style="display: none;"></th>
+                        <th style="display: none;"></th> -->
+                        <th rowspan="3" class="tc-w-60">Tồn đầu</th>
+                        <th rowspan="3" class="tc-w-100">Số lượng dùng</th>
+                        <th rowspan="3" class="tc-w-60">Tồn cuối</th>
+                        <th rowspan="3" class="tc-w-80">Tỷ lệ</th>
+                        <th [attr.colspan]="listProps.length">Bàn bông</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2" style="display: none;"></th>
+                        <th rowspan="2" class="tc-w-50">Mic</th>
+                        <th rowspan="2" class="tc-w-50">Mat</th>
+                        <th rowspan="2" class="tc-w-60">UHML</th>
+                        <th rowspan="2" class="tc-w-50">Str</th>
+                        <th rowspan="2" class="tc-w-50">SFI</th>
+                        <th rowspan="2" class="tc-w-50">Rd</th>
+                        <th rowspan="2" class="tc-w-50">+b</th>
+                        <th rowspan="2" class="tc-w-50">Tạp</th>
+                        <th rowspan="2" class="tc-w-50">Ẩm</th>
+                        <th *ngFor="let ban of listProps" class="tc-w-50">
+                            {{ban}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <th *ngFor="let ban of listProps" class="tc-w-50">
+                            <p-checkbox [(ngModel)]="itemCheckBan[ban].checked" (onChange)="checkBanBong(ban)" binary="true" inputId="binary" [disabled]="itemCheckBan[ban].isDisabled"></p-checkbox>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lobong of item.listLoBong; let i = index"
+                        [ngStyle]="{'background-color': lobong.Mau}">
+                        <td class="text-center tc-w-151" [ngStyle]="{'background-color': lobong.Mau}">{{lobong.Ma}}
+                        </td>
+                        <td class="text-center tc-w-121" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.SoHopDong}}
+                        </td>
+                        <td class="text-center tc-w-60" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.GiaBong|number:'0.0-3'}}
+                        </td>
+                        <td class="text-center tc-w-80" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.TrongLuong|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-121" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.GiaUSD|number:'0.0-2'}}
+                        </td>
+                        <td class="text-center tc-w-60" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.NepsBong}}
+                        </td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Mic|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Mat|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-60" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.UHML|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Str|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.SFI|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Rd|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.b|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Tap|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.Am|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-60" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.SoLuongKien}}</td>
+                        <td class="text-center tc-w-100" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.SoLuongDung}}</td>
+                        <td class="text-center tc-w-60" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.TonCuoi}}</td>
+                        <td class="text-center tc-w-80" [ngStyle]="{'background-color': lobong.Mau}">
+                            {{lobong.TyLe|number:'0.2-4'}}</td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                <!-- <a href="javascript:void(0)" [ngStyle]="{'font-weight': lobong.tempBanBong[prop].listItem.length===lobong.tempBanBong[prop].SoKien?'900':'unset','text-decoration':lobong.tempBanBong[prop].listItem.length===lobong.tempBanBong[prop].SoKien?'underline':'none'}"
+                                    (click)="chonKienBong(lobong.IdLoBong,i,prop)">{{lobong.tempBanBong[prop].SoKien}}</a> -->
+                                    {{lobong.tempBanBong[prop].SoKien}}
+                                <!-- <p-inputNumber locale="vi-VN" [(ngModel)]="lobong.tempBanBong[prop].SoKien"
+                                    [tabindex]="lobong.tempBanBong[prop].tabIndex" [placeholder]="'_'"
+                                    (onBlur)="CalAllTable(i,prop)" (keyup.enter)="nextFocus($event)">
+                                </p-inputNumber> -->
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-100"> {{TongKhoiLuongDung|number:'0.2-4'}}</td>
+                        <td class="text-center tc-w-60"></td>
+                        <td class="text-center tc-w-80">{{TongTyLe|number:'0.2-4'}}</td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">Tổng kiện / bàn bông</td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-100">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                {{itemSoKienTrenBan[prop]}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">Bình quân bàn bông</td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">{{ChatLuongBinhQuan.Mic|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50"></td>
+                        <td class="text-center tc-w-60"></td>
+                        <td class="text-center tc-w-50"></td>
+                        <td class="text-center tc-w-50"></td>
+                        <td class="text-center tc-w-50">{{ChatLuongBinhQuan.Rd|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50">{{ChatLuongBinhQuan.b|number:'0.2-2'}}</td>
+                        <td class="text-center tc-w-50"></td>
+                        <td class="text-center tc-w-50"></td>
+                        <td class="text-center tc-w-60"></td>
+                        <td class="text-center tc-w-100"></td>
+                        <td class="text-center tc-w-60"></td>
+                        <td class="text-center tc-w-80">SK</td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                {{itemSoKienTrenBanTruBongHoi[prop]}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-100">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                            Mic B/Q
+                        </td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                {{itemMicBQ[prop]|number:'0.2-2'}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-100">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                            CVMic
+                        </td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                {{itemCVMic[prop]|number:'0.2-2'}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center tc-w-151">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                        </td>
+                        <td class="text-center tc-w-121">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-50">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-100">
+                        </td>
+                        <td class="text-center tc-w-60">
+                        </td>
+                        <td class="text-center tc-w-80">
+                            +b
+                        </td>
+                        <td *ngFor="let prop of listProps" class="text-center tc-w-50">
+                            <div style="width: 100%;">
+                                {{itembBQ[prop]|number:'0.2-2'}}
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+</div>

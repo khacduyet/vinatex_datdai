@@ -1,0 +1,155 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}}
+        {{LoaiGiaDat==='GIA_DAT_THAM_KHAO'?'giá đất':'tổng tiền thuê/năm'}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p-table [value]="listGiaDat|isXoa:LoaiGiaDat" dataKey="id" editMode="row"
+        styleClass="p-datatable-sm p-datatable-responsive-demo">
+        <ng-template pTemplate="colgroup">
+            <col style="width: 50px;">
+            <col>
+            <col *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+            <col>
+            <col>
+            <col *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+            <col style="width: 100px;">
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th *ngIf="LoaiGiaDat==='GIA_DAT_THAM_KHAO'">Năm</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Từ Ngày</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Đến Ngày</th>
+                <th>{{LoaiGiaDat==='GIA_DAT_THAM_KHAO'?'Đơn giá(triệu đồng)':'Tổng tiền thuê/năm'}}</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Đơn vị</th>
+                <th>Tài liệu đính kèm</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-GiaDat let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="GiaDat">
+                <td class="text-center">{{ri+1}}</td>
+                <td class="text-center" pEditableColumn *ngIf="LoaiGiaDat==='GIA_DAT_THAM_KHAO'">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber [(ngModel)]="GiaDat.Nam" max="9999" [useGrouping]="false"></p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{GiaDat.Nam}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center" pEditableColumn *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="GiaDat.TuNgay"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{GiaDat.TuNgay|date:'dd/MM/yyyy'}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center" pEditableColumn *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="GiaDat.DenNgay"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{GiaDat.DenNgay|date:'dd/MM/yyyy'}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center" pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber [(ngModel)]="GiaDat.Gia" locale="vi-VN"></p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{GiaDat.Gia|number:"0.0"}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center" pEditableColumn *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-dropdown [filter]="false" [options]="listDonVi"
+                                    placeholder="Chọn đơn vị" styleClass="p-inputtext-sm"
+                                    [(ngModel)]="GiaDat.IDdmDonViTien"></p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <p-dropdown [filter]="false" [options]="listDonVi"
+                                    placeholder="Chọn đơn vị" styleClass="p-inputtext-sm"
+                                    [(ngModel)]="GiaDat.IDdmDonViTien" disabled></p-dropdown>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="text-center">
+                    <a href="" *ngIf="GiaDat.FileDinhKem!=null">{{GiaDat.FileDinhKem.TenGoc}}</a>
+                </td>
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-text p-button-sm p-button-secondary p-button p-component p-button-icon-only"
+                        (click)="delete(ri)"></button>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <tr>
+                <td></td>
+                <td *ngIf="LoaiGiaDat==='GIA_DAT_THAM_KHAO'">
+                    <!-- <input pInputText type="number" [(ngModel)]="newItem.Nam"> -->
+                    <p-inputNumber [(ngModel)]="newItem.Nam" max="9999" [useGrouping]="false"></p-inputNumber>
+                </td>
+                <td *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <!-- <input pInputText type="number" [(ngModel)]="newItem.Nam"> -->
+                    <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="newItem.TuNgay"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                </td>
+                <td *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <!-- <input pInputText type="number" [(ngModel)]="newItem.Nam"> -->
+                    <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="newItem.DenNgay"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                </td>
+                <td>
+                    <!-- <input pInputText type="text" [(ngModel)]="newItem.Gia"> -->
+                    <p-inputNumber [(ngModel)]="newItem.Gia" locale="vi-VN"></p-inputNumber>
+                </td>
+                <td *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                    <p-dropdown [filter]="false" [options]="listDonVi"
+                                    placeholder="Chọn đơn vị" styleClass="p-inputtext-sm"
+                                    [(ngModel)]="newItem.IDdmDonViTien"></p-dropdown>
+                </td>
+                <td>
+                    <div class="p-inputgroup">
+                        <input pInputText type="text" disabled [(ngModel)]="newItem.FileDinhKem.TenGoc"
+                            style="width:80%!important">
+                        <button type="button" pButton pRipple icon="pi pi-upload" style="float: right;"
+                            class="p-button-sm p-button-text p-button-secondary" (click)="taiLenFileDinhKem()"></button>
+                    </div>
+                </td>
+                <td style="text-align:center">
+                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-plus"
+                        class="p-button-rounded p-button-sm p-button-success" (click)="add()"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-trash" (click)="onClose()"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2"></button>
+</div>

@@ -1,0 +1,64 @@
+<div style="padding:27px; height:100vh ;">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-6 p-p-0 p-d-none p-d-lg-block">
+            <!-- <img class="logo-abs" src="assets/logo/LogoWhite.png" width="86px"> -->
+            <p-galleria [(value)]="images" [responsiveOptions]="responsiveOptions"
+                [containerStyle]="{'width': '100%','height':'calc( 100vh - 4rem )'}" [numVisible]="5"
+                [showItemNavigators]="true" [showThumbnails]="false" [circular]="true"
+                [autoPlay]="true" [transitionInterval]="5000">
+                <ng-template pTemplate="item" let-item>
+                    <div class="fulldivbg" [ngStyle]="{'background-image': 'url(' + item + ')'}">
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="p-grid p-nogutter p-justify-center">
+                        <img [src]="item" style="display: block;" />
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-0 p-d-flex p-flex-column">
+            <div class="login-content p-d-flex p-flex-column p-jc-center p-ai-center my-auto">
+                <div class="p-col-12 p-p-0 text-center">
+                    <h3 class="company-name">VINATEX</h3>
+                    <h3 class="software-name">Hệ thống quản trị</h3>
+                </div>
+                <div class="login-form-container text-center">
+                    <h3 class="login-title">
+                        Đăng nhập
+                    </h3>
+                    <div class="p-d-flex p-flex-column">
+                        <input type="text" placeholder="Tên đăng nhập" style="margin: 30px 0px;" (keyup.enter)="login()" [(ngModel)]="account.UserName" class="p-inputtext-sm" pInputText />
+                        <div class="p-inputgroup" style="margin-bottom: 15px;">
+                            <input type="password" pPassword placeholder="Mật khẩu" class="p-inputtext-sm" [showPassword]="seePass" (keyup.enter)="login()" [(ngModel)]="account.Password" [feedback]="false" />
+                            <button type="button" pButton pRipple [icon]="seePass?'pi pi-eye-slash':'pi pi-eye'" (click)="revealPass()" class="p-button-secondary p-button-sm p-button-text"></button>    
+                        </div>
+                        <div class="p-d-flex p-flex-row p-jc-between" style="margin-bottom: 30px;">
+                            <div class="">
+                                <p-checkbox [(ngModel)]="account.RememberMe" binary="true" inputId="binary"></p-checkbox><label style="margin: 0px; margin-left:10px">Ghi nhớ</label>
+                            </div>
+                            <div>
+                                <a href="javascript:void(0)" (click)="timMK()" style="font-size: 13px;">Tìm lại mật khẩu?</a>
+                            </div>
+                        </div>
+                        <div><button (click)="login()" pButton type="button" style="width: 100%;" label="Đăng nhập" ></button></div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    &#169; 2020. Dev by HarmonyES
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog header="Tìm lại mật khẩu" [(visible)]="timMKdialog" [style]="{width: '50vw'}" [modal]="true" [baseZIndex]="10000">
+    <div class="p-grid">
+        <div class="p-col-12 p-p-3 d-flex flex-column">
+            <label>Tên tài khoản:</label>
+            <input type="text" placeholder="Tên tài khoản" [(ngModel)]="UserNameFG" class="p-inputtext-sm" pInputText />
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-check" (click)="displayBasic=false" label="Xác nhận" (click)="ForgotPass()" styleClass="p-button-sm"></p-button>
+    </ng-template>
+</p-dialog>

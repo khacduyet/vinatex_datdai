@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <h5 class="modal-title">Chọn thửa đất</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-flex-row  p-mb-3">
+        <button pButton [label]="vung.Ten" icon="pi pi-chevron-down" iconPos="right" (click)="chonVung.toggle($event)"
+            class="p-button-sm p-button-secondary p-button-outlined right-icon p-mr-3"></button>
+        <button pButton label="Xác nhận lựa chọn" (click)="XacNhanChon()" class="p-button-sm right-icon p-mr-3"></button>
+        <button pButton label="Hủy" (click)="_activeModal.dismiss()" class="p-button-sm p-button-outlined right-icon"></button>
+    </div>
+    
+    <p-table [value]="thuaDats" styleClass="p-datatable-sm p-datatable-striped wrap-text" selectionMode="multiple"
+        [(selection)]="selectedThuaDats" [scrollable]="true">
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col style="width:50px">
+                <col style="width:50px">
+                <col style="width:20px;">
+                <!-- <col style="width:50px"> -->
+                <!-- <col style="width:100px"> -->
+                <col style="width:300px">
+                <col style="width:300px">
+                <col style="width:120px">
+                <col style="width:300px">
+                <col style="width:250px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 3rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>STT</th>
+                <th></th>
+                <!-- <th>Số tờ</th>
+                <th>Số thửa</th> -->
+                <th>Địa chỉ</th>
+                <th>Thông tin người sở hữu</th>
+                <th>Diện tích (m<sup>2</sup>)</th>
+                <th>Tình trạng pháp lý</th>
+                <th>Phương án sắp xếp</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-thuaDat let-i="rowIndex">
+            <tr>
+                <!-- [pSelectableRow]="thuaDat" -->
+                <td class="text-center">
+                    <p-tableCheckbox [value]="thuaDat"></p-tableCheckbox>
+                </td>
+                <td class="text-center">
+                    {{i + 1}}
+                </td>
+                <td class="text-center">
+                    <img *ngIf="thuaDat.TaiSanDat.DaCoGiayCNQSDD" src="/assets/logo/sodo.png" width="18px" alt="">
+                </td>
+                <!-- <td class="text-center">{{ thuaDat.TaiSanDat.SoTo }}</td>
+                <td class="text-center">{{ thuaDat.TaiSanDat.SoThua }}</td> -->
+                <td>{{ thuaDat.TaiSanDat.DiaChi }}</td>
+                <td>{{ thuaDat.TaiSanDat.TenCongTy }}</td>
+                <td class="text-center">
+                    {{ thuaDat.TaiSanDat.DienTich|number:'0.0' }}
+                </td>
+                <td>
+                    <p style="margin:0;margin-left:5px" *ngFor="let BienDong of thuaDat.BienDongs">
+                        - {{ BienDong.NoiDungBienDong }}
+                    </p>
+                </td>
+                <td>{{ thuaDat.TaiSanDat.TenPhuongAnSapXep }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="modal-footer">
+</div>
+<p-overlayPanel #chonVung>
+    <ng-template pTemplate>
+        <p-tree [value]="vungs" [filter]="true" selectionMode="single" [(selection)]="selectedFile"
+            (onNodeSelect)="nodeSelect($event)"></p-tree>
+    </ng-template>
+</p-overlayPanel>

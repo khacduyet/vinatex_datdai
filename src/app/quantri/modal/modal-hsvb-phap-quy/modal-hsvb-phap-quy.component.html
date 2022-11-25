@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} hồ sơ - văn bản pháp quy</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Tên văn bản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.TenVanBan"
+                    (ngModelChange)="item.TenVanBan=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Số văn bản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.SoVanBan"
+                    (ngModelChange)="item.SoVanBan=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Loại văn bản:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [filter]="true" [options]="listLoaiVanBan" placeholder="Chọn loại văn bản"
+                    styleClass="p-inputtext-sm" [(ngModel)]="item.IdLoaiVanBan" >
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Ngày quyết định:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                    [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="item.NgayQuyetDinh"
+                    inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                </p-calendar>
+            </div>
+        </div>
+
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Cơ quan ban hành:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.CoQuanBanHanh"
+                    (ngModelChange)="item.CoQuanBanHanh=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Trích yếu:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.GhiChu"
+                    (ngModelChange)="item.GhiChu=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Nơi lưu trữ văn bản gốc:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.NoiLuuTruGoc"
+                    (ngModelChange)="item.NoiLuuTruGoc=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Tài liệu đính kèm:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <div class="p-inputgroup">
+                    <input type="text" pInputText class="p-inputtext-sm" [(ngModel)]="item.TenGoc" disabled>
+                    <button type="button" pButton pRipple icon="pi pi-upload"
+                        class="p-button-sm p-button-text p-button-secondary" (click)="taiLenFileDinhKem()"></button>
+                    <!-- <button type="button" pButton pRipple icon="pi pi-download" class="p-button-sm p-button-text p-button-secondary"
+                        (click)="taiXuongFileDinhKem()"></button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Lưu" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="accept('add')"></button>
+    <button pButton pRipple label="Lưu và Thêm mới" icon="pi pi-plus" class="p-button-sm  p-mr-2"
+        (click)="accept('more')"></button>
+    <button pButton pRipple label="Thoát" icon="pi pi-trash"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss('')"></button>
+</div>

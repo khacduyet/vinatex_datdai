@@ -1,0 +1,105 @@
+<div class="modal-header">
+    <h5 class="modal-title">Lựa chọn thay thế kiện {{itemRemove.Ten}}-{{itemRemove.Mic}} của {{itemRemove.TenLoBong}}</h5>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-ai-center p-jc-between">
+        <div>
+            <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+            <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+                (click)="activeModal.dismiss('Cross click')"></button>
+        </div>
+        <div class="p-d-flex p-flex-row">
+            <div class="p-inputgroup" style="width:200px">
+                <input type="text" placeholder="Tìm kiếm" class="p-inputtext-sm" pInputText
+                            [(ngModel)]="filter.KeyWord" (keyup.enter)="GetQuyTrinhFilter()"/>
+                        <button type="button" pButton pRipple icon="pi pi-refresh"
+                            class="p-button-secondary p-button-sm p-button-text" (click)="GetQuyTrinhRefresh()"></button>
+            </div>
+        </div>
+    </div>
+    <p-tabView>
+        <p-tabPanel header="Chưa xếp bàn bông">
+            <ng-template pTemplate="content">
+                <p-table  [lazy]="true" [scrollable]="true" scrollHeight="45vh"
+            [value]="item.listChuaXep" styleClass="p-datatable-sm wrap-text p-datatable-striped">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                        <col style="width:50px">
+                        <col style="width:50px">
+                        <col *ngFor="let col of cols">
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center" *ngFor="let header of cols">
+                            {{header.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>
+                            {{ 15 * (paging.CurrentPage - 1) + i + 1 }}
+                        </td>
+                        <td >
+                            <input type="checkbox" [(ngModel)]="item.checked" (click)="itemCheck(item)" [disabled]="item.isChon">
+                        </td>
+                        <td class="text-center" *ngFor="let col of cols" [ngClass]="{'text-center': col.align==='center'}">
+                            {{item[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        Tổng số bản ghi {{paging.TotalItem}}.<p-paginator #paginator [totalRecords]="paging.TotalItem" [rows]="15"
+                            (onPageChange)="changePage($event)"></p-paginator>
+                    </div>
+                </ng-template>
+            </p-table>
+            </ng-template>
+        </p-tabPanel>
+        <p-tabPanel header="Tổng hợp">
+            <p-table  [lazy]="true" [scrollable]="true" scrollHeight="45vh"
+            [value]="item.listFull" styleClass="p-datatable-sm wrap-text p-datatable-striped">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                        <col style="width:50px">
+                        <col style="width:50px">
+                        <col *ngFor="let col of cols">
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center">STT</th>
+                        <th class="text-center">#</th>
+                        <th class="text-center" *ngFor="let header of cols">
+                            {{header.header}}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>
+                            {{ 15 * (paging1.CurrentPage - 1) + i + 1 }}
+                        </td>
+                        <td >
+                            <input type="checkbox" [(ngModel)]="item.checked" (click)="itemCheck(item)">
+                        </td>
+                        <td class="text-center" *ngFor="let col of cols" [ngClass]="{'text-center': col.align==='center'}">
+                            {{item[col.field]}}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        Tổng số bản ghi {{paging1.TotalItem}}.<p-paginator #paginator [totalRecords]="paging1.TotalItem" [rows]="15"
+                            (onPageChange)="changePage1($event)"></p-paginator>
+                    </div>
+                </ng-template>
+            </p-table>
+        </p-tabPanel>
+    </p-tabView>
+    
+</div>

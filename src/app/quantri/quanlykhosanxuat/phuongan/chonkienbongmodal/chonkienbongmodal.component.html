@@ -1,0 +1,102 @@
+<div class="modal-header">
+    <h5 class="modal-title">Danh sách kiện bông - {{TenLoBong}} - Chọn {{maxSelected}} kiện </h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-6 p-p-0 d-flex flex-column">
+            <div class="p-d-flex p-flex-row p-jc-between p-mb-3">
+                <div>
+                    <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+                </div>
+                <!-- <div>
+                    <div class="p-inputgroup">
+                        <input type="text" placeholder="Tìm kiếm" class="p-inputtext-sm" pInputText
+                            (keyup.enter)="chonThuaDat()" [(ngModel)]="KeyWord" />
+                        <button type="button" pButton pRipple icon="pi pi-refresh"
+                            class="p-button-secondary p-button-sm p-button-text" (click)="resetFilter()"></button>
+                    </div>
+                </div> -->
+            </div>
+            <p-table [value]="items" styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                        <!-- <col style="width:50px"> -->
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Mã</th>
+                        <th>Mic</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{item.Ten}}</td>
+                        <td>{{item.Mic |number:'0.0-3'}}</td>
+                        <td class="text-center"><button pButton pRipple type="button" icon="pi pi-forward"
+                                class="p-button-rounded" (click)="pickItem(item.Id)"></button></td>
+                        <!-- pi-forward -->
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="p-col-6 d-flex flex-column" style="padding-top:46.25px ;">
+            <!-- <div class="p-d-flex p-flex-row p-jc-between p-mb-3">
+                <div>
+                    <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+                </div>
+            </div> -->
+            <p-table [value]="selectedItems"
+                styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines" [scrollable]="true" scrollHeight="500px">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                        <!-- <col style="width:50px"> -->
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th></th>
+                        <th>Mã</th>
+                        <th>Mic</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td class="text-center"><button pButton pRipple type="button" icon="pi pi-backward"
+                                class="p-button-rounded" (click)="refundItem(item.Id)"></button></td>
+                        <td>{{item.Ten}}</td>
+                        <td>{{item.Mic|number:'0.0-3'}}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td class="text-center"></td>
+                        <td>Mic B/Q hiện tại</td>
+                        <td>{{currentMic |number:'0.0-3'}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center"></td>
+                        <td>Mic B/Q yêu cầu</td>
+                        <td>{{resultMic |number:'0.0-3'}}</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <!-- <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+        (click)="activeModal.dismiss()"></button> -->
+</div>

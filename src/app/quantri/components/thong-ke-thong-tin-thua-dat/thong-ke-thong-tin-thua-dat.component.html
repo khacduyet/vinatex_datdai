@@ -1,0 +1,35 @@
+<div style="width: 100% !important;overflow-x: auto;">
+    <table style="width: 100%;" class="timeline">
+        <thead>
+            <tr>
+                <th style="width: 7em;"></th>
+                <th>Hiện trạng sử dụng</th>
+                <th>Tình trạng pháp lý</th>
+                <th>Hồ sơ văn bản</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td style="text-align: right; position: relative;">
+                    <div class="date">{{item.ThoiGian}}<span style="font-size: 48px; position: absolute">&bull;</span>
+                    </div>
+                </td>
+                <td>
+                    <p *ngFor="let HTSD of item.HienTrangSuDung">
+                        - {{HTSD}}
+                    </p>
+                </td>
+                <td>
+                    <p *ngFor="let BD of item.BienDong">
+                        - {{BD}}
+                    </p>
+                </td>
+                <td>
+                    <p *ngFor="let HSVB of item.HoSoVanBan">
+                        - {{HSVB}}
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

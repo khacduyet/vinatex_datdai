@@ -1,0 +1,32 @@
+<div class="text-center bg-white p-4">
+    <h5>TỔNG HỢP TÌNH HÌNH THEO DÕI QUẢN LÝ, SỬ DỤNG TÀI SẢN CÔNG LÀ NHÀ, ĐẤT TẠI THỜI ĐIỂM 30/6/2019</h5>
+    <p style="font-style: italic">Khối cơ quan hành chính nhà nước, đơn vị sự nghiệp, tổ chức</p>
+    <p-table [value]="products" styleClass="p-datatable-gridlines p-datatable-sm text-wrap" scrollable="true">
+        <ng-template pTemplate="colgroup">
+            <col style="width: 50px;">
+            <col style="width: 100px;">
+            <ng-container *ngFor="let col of cols">
+                <col style="width: 100px;">
+                <col style="width: 100px;">
+                <col style="width: 100px;">
+            </ng-container>
+            <col style="width: 100px;">
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let col of r1" [attr.rowspan]="col.rs" [attr.colspan]="col.cs">{{col.label}}</th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of r2" [attr.rowspan]="col.rs" [attr.colspan]="col.cs">{{col.label}}</th>
+            </tr>
+            <tr>
+                <th *ngFor="let col of r3" [attr.rowspan]="col.rs" [attr.colspan]="col.cs">{{col.label}}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td *ngFor="let td of tds">{{td}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

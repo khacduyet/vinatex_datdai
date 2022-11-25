@@ -1,0 +1,235 @@
+<p-panel header="Thông tin chung" [toggleable]="true">
+    <div class="p-grid">
+        <div class="p-col-12">
+            <label>Địa
+                chỉ:</label>&nbsp;<span>{{item.TaiSanDat.DiaChi+' - '+item.TaiSanDat.TendmPhuong+' -
+                '+item.TaiSanDat.TendmQuan+' - '+item.TaiSanDat.TendmTinh}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Diện tích:</label>&nbsp;<span>{{item.TaiSanDat.DienTich|number}}m<sup>2</sup></span>
+        </div>
+        <div class="p-col-12 p-lg-8">
+            <label>DT Bằng chữ:</label>&nbsp;<span>{{item.TaiSanDat.DienTichBangChu}}</span>
+        </div>
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label class="my-auto mr-3">Diện tích sàn:</label>&nbsp;<p-checkbox [ngModel]="item.TaiSanDat.IsDienTichSan"
+                binary="true" inputId="binary" [disabled]="true">
+            </p-checkbox>
+        </div>
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label class="my-auto mr-3">Diện tích đất:</label>&nbsp;<p-checkbox
+                [ngModel]="!item.TaiSanDat.IsDienTichSan" binary="true" inputId="binary" [disabled]="true">
+            </p-checkbox>
+        </div>
+        <div class="p-col-12">
+            <label>Link Google Map:</label>&nbsp;<span><a target="_blank"
+                    [href]="item.TaiSanDat.LinkMap">{{item.TaiSanDat.DiaChi}} - GoogleMaps</a></span>
+        </div>
+    </div>
+</p-panel>
+<p-panel header="Thông tin đơn vị sử dụng đất" [toggleable]="true">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Tên công ty:</label>&nbsp;<span>{{item.TaiSanDat.TenDanhMucDonVi}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số GPKD:</label>&nbsp;<span>{{item.TaiSanDat.SoGPKD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Ngày cấp GPKD:</label>&nbsp;<span>{{item.TaiSanDat.NgayCapGPKD|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Địa chỉ:</label>&nbsp;<span>{{item.TaiSanDat.DiaChiNguoiSuDung}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Người đại diện pháp luật:</label>&nbsp;<span>{{item.TaiSanDat.TenNguoiDaiDienPhapLuat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Chức vụ người đại diện:</label>&nbsp;<span>{{item.TaiSanDat.ChucVuNguoiDaiDienPhapLuat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số tài khoản:</label>&nbsp;<span>{{item.TaiSanDat.SoTaiKhoan}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Địa chỉ ngân hàng:</label>&nbsp;<span>{{item.TaiSanDat.DiaChiNganHang}}</span>
+        </div>
+    </div>
+</p-panel>
+<p-panel header="Thông tin đơn vị sở hữu đất" [toggleable]="true"
+    *ngIf="item.TaiSanDat.MaHanhDong>=3&&item.TaiSanDat.MaHanhDong!=4">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Tên công ty:</label>&nbsp;<span>{{item.TaiSanDat.TendmDonViSoHuuDat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số GPKD:</label>&nbsp;<span>{{item.TaiSanDat.SoGPKDBydmDonViSHD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Ngày cấp GPKD:</label>&nbsp;<span>{{item.TaiSanDat.NgayCapGPKDBydmDonViSHD|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Địa chỉ:</label>&nbsp;<span>{{item.TaiSanDat.DiaChiNguoiSuDungBydmDonViSHD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Người đại diện pháp
+                luật:</label>&nbsp;<span>{{item.TaiSanDat.TenNguoiDaiDienPhapLuatBydmDonViSHD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Chức vụ người đại diện:</label>&nbsp;<span>{{item.TaiSanDat.ChucVuNguoiDaiDienBydmDonViSHD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số tài khoản:</label>&nbsp;<span>{{item.TaiSanDat.SoTaiKhoanBydmDonViSHD}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Địa chỉ ngân hàng:</label>&nbsp;<span>{{item.TaiSanDat.DiaChiNganHangBydmDonViSHD}}</span>
+        </div>
+    </div>
+</p-panel>
+
+<p-panel header="Quyền sử dụng đất" [toggleable]="true"
+    *ngIf="item.TaiSanDat.MaHanhDong>=4 && !item.TaiSanDat.IsDienTichSan">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label>Số tờ:</label>&nbsp;<span>{{item.TaiSanDat.SoTo}}</span>
+        </div>
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label>Số thửa:</label>&nbsp;<span>{{item.TaiSanDat.SoThua}}</span>
+        </div>
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label>Số cấp GCN:</label>&nbsp;<span>{{item.TaiSanDat.SoCapGCN}}</span>
+        </div>
+        <div class="p-col-12 p-lg-3 p-p-2">
+            <label>Ngày cấp:</label>&nbsp;<span>{{item.TaiSanDat.NgayCapGCN|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-6">
+            <label>Nguồn gốc sử dụng:</label>&nbsp;<span>{{getNguonGoc(item.TaiSanDat.IDdmNguonGocDat)}}</span>
+        </div>
+        <div class="p-col-12 p-lg-6">
+            <label>Mục đích sử dụng:</label>&nbsp;<span>{{getMucDich(item.TaiSanDat.IDdmMucDichSuDung)}}</span>
+        </div>
+        <div class="p-col-12">
+            <label class="my-auto mr-3">Đã đăng ký tài sản trên đất:</label>&nbsp;<p-checkbox
+                [(ngModel)]="item.TaiSanDat.DaDangKyTaiSanTrenDat" binary="true" inputId="binary" [disabled]="true">
+            </p-checkbox>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Hình thức sử dụng:</label>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Sử dụng chung:</label>&nbsp;<span>{{item.TaiSanDat.DTSuDungChung|number}}m<sup>2</sup></span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Sử dụng riêng:</label>&nbsp;<span>{{item.TaiSanDat.DTSuDungRieng|number}}m<sup>2</sup></span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Thời hạn sử dụng:</label>&nbsp;<span>{{item.TaiSanDat.ThoiHanSuDung}}
+                {{item.TaiSanDat.ThoiHanSuDung!==null?(item.TaiSanDat.isSuDungLauDai?'':'năm'):''}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2" *ngIf="!item.TaiSanDat.isSuDungLauDai">
+            <label>Thời hạn sử dụng từ
+                ngày:</label>&nbsp;<span>{{item.TaiSanDat.ThoiHanSuDungTuNgayUnix===0 ?'':item.TaiSanDat.ThoiHanSuDungTuNgay|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2" *ngIf="!item.TaiSanDat.isSuDungLauDai">
+            <label>Thời hạn sử dụng đến
+                ngày:</label>&nbsp;<span>{{item.TaiSanDat.ThoiHanSuDungDenNgayUnix===0?'':item.TaiSanDat.ThoiHanSuDungDenNgay|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-12 p-p-3 d-flex flex-column"
+            *ngIf="!item.TaiSanDat.isSuDungLauDai && item.TaiSanDat.ThoiHanSuDung!==null&&item.TaiSanDat.ThoiHanSuDung!==undefined && item.TaiSanDat.ThoiHanSuDungTuNgay!== undefined&& item.TaiSanDat.ThoiHanSuDungDenNgay !== undefined && item.TaiSanDat.ThoiHanSuDungTuNgayUnix!== undefined&& item.TaiSanDat.ThoiHanSuDungDenNgayUnix !== undefined && item.TaiSanDat.ThoiHanSuDungTuNgayUnix!== null&& item.TaiSanDat.ThoiHanSuDungDenNgayUnix !== null && item.TaiSanDat.ThoiHanSuDungTuNgay!== null && item.TaiSanDat.ThoiHanSuDungDenNgay !== null">
+            <div class="p-p-0" style="width: 100%;">
+                <div class="mocNam" [ngStyle]="{width: 100+'%'}">
+                    <div class="tuNam">{{tuNam}}</div>
+                    <!-- <div [ngStyle]="{width: thoiHanDaSuDung+'%'}">
+                    </div> -->
+                    <div class="denNam">{{denNam}}</div>
+                </div>
+            </div>
+            <div class="p-p-0" style="width: 100%;">
+                <div class="ruler text-center" [ngStyle]="{width: 100+'%'}">
+                    <div [ngStyle]="{width: thoiHanDaSuDung+'%'}">
+                        <div>
+                            {{namHienTai}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-p-0" style="width: 100%;">
+                <div class="myProgress" [ngStyle]="{width: 100+'%'}">
+                    <div class="myBar1" [ngStyle]="{width: thoiHanDaSuDung+'%'}">
+                        <!-- {{namDaSuDung}} {{namDaSuDung >0?'năm':''}} -->
+                    </div>
+                    <div class="myBar2" [ngStyle]="{width: thoiHanSuDungConLai+'%'}">
+                        <!-- {{namConLai}} {{namConLai > 0?'năm':''}} -->
+                    </div>
+                </div>
+            </div>
+            <div class="p-p-0" style="width: 100%;">
+                <div class="ruler text-center" [ngStyle]="{width: 100+'%'}">
+                    {{item.TaiSanDat.ThoiHanSuDung}}
+                    {{(item.TaiSanDat.ThoiHanSuDung !== undefined && item.TaiSanDat.ThoiHanSuDung !== 0&&
+                    item.TaiSanDat.ThoiHanSuDung !== null)?'năm':''}}
+                </div>
+            </div>
+        </div>
+    </div>
+</p-panel>
+<p-panel header="Thông tin quyết định giao/thuê đất" [toggleable]="true" *ngIf="item.TaiSanDat.MaHanhDong>=2">
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số quyết định:</label>&nbsp;<span>{{item.TaiSanDat.SoQuyetDinhGiaoDat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Người ký:</label>&nbsp;<span>{{item.TaiSanDat.NguoiKyGiaoDat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Ngày ký:</label>&nbsp;<span>{{item.TaiSanDat.NgayKyGiaoDat|date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Đơn vị ký:</label>&nbsp;<span>{{item.TaiSanDat.DonViKyGiaoDat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Số vào sổ GCN:</label>&nbsp;<span>{{item.TaiSanDat.SoVaoSoGCN}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Ghi chú:</label>&nbsp;<span>{{item.TaiSanDat.GhiChu}}</span>
+        </div>
+    </div>
+</p-panel>
+<p-panel header="Thông tin quy hoạch, kỹ thuật chi tiết của khu đất" [toggleable]="true">
+    <div class="p-grid">
+        <ng-container *ngIf="!item.TaiSanDat.IsDienTichSan">
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Mật độ xây dựng cấp phép:</label>&nbsp;<span>{{item.TaiSanDat.MatDoXayDung|number}}%</span>
+            </div>
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Chiều cao xây dựng cấp phép:</label>&nbsp;<span>{{item.TaiSanDat.ChieuCaoXayDung}}m</span>
+            </div>
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Quy hoạch SD đất lân cận:</label>&nbsp;<span>{{item.TaiSanDat.QuyHoach}}</span>
+            </div>
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Mật độ xây dựng thực tế:</label>&nbsp;<span>{{item.TaiSanDat.MatDoXayDungThucTe|number}}%</span>
+            </div>
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Chiều cao xây dựng thực tế:</label>&nbsp;<span>{{item.TaiSanDat.ChieuCaoXayDungThucTe}}m</span>
+            </div>
+            <div class="p-col-12 p-lg-4 p-p-2">
+                <label>Định hướng quy hoạch:</label>&nbsp;<span>{{item.TaiSanDat.DinhHuongQuyHoach}}</span>
+            </div>
+        </ng-container>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Giá trị đất(tham khảo):</label>&nbsp;<span><button pButton pRipple type="button" icon="pi pi-plus"
+                    class="p-button-rounded p-button-outlined" (click)="GiaDat('GIA_DAT_THAM_KHAO')"></button></span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Giá tiền thuê đất hằng năm:</label>&nbsp;<span><button pButton pRipple type="button"
+                    icon="pi pi-plus" class="p-button-rounded p-button-outlined"
+                    (click)="GiaDat('GIA_THUE_DAT_HANG_NAM')"></button></span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Hạ tầng kỹ thuật:</label>&nbsp;<span>{{item.TaiSanDat.HaTangKyThuat}}</span>
+        </div>
+        <div class="p-col-12 p-lg-4 p-p-2">
+            <label>Phương án sắp xếp:</label>&nbsp;<span>{{item.TaiSanDat.TenPhuongAnSapXep}}</span>
+        </div>
+    </div>
+</p-panel>

@@ -1,0 +1,3 @@
+:host ::ng-deep .p-inputtext-sm.p-inputtext{
+    width: unset !important;
+}

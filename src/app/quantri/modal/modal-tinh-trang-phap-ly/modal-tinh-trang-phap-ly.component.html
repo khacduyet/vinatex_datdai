@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} thông tin biến động</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Nội dung biến động:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm"[ngModel]="item.NoiDungBienDong" (ngModelChange)="item.NoiDungBienDong=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Loại biến động:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-dropdown [options]="listLoaiBienDong" placeholder="Chọn loại biến động" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.LoaiBienDong" optionLabel="Ten" [showClear]="true"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row"></div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Thời gian biến động:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="item.ThoiGianBienDong" inputId="icon" [showIcon]="true"
+                    placeholder="dd/mm/yyyy">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Người ký biến động:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.NguoiKy" (ngModelChange)="item.NguoiKy=nhapTen($event)" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Ngày ký:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true" [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="item.NgayKy" inputId="icon" [showIcon]="true"
+                    placeholder="dd/mm/yyyy">
+                </p-calendar>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 p-p-3 d-flex flex-column flex-lg-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Nơi xác nhận biến động:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [ngModel]="item.NoiXacNhanBienDong" (ngModelChange)="item.NoiXacNhanBienDong=vietHoaChuCaiDau($event)" pInputText />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Lưu" icon="pi pi-plus" class="p-button-sm p-mr-2"(click)="accept('add')"></button>
+    <button pButton pRipple label="Lưu và Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="accept('more')"></button>
+    <button pButton pRipple label="Thoát" icon="pi pi-trash"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>

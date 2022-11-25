@@ -1,0 +1,107 @@
+<!-- <p-chart type="bar" [data]=monthlyConfig></p-chart> -->
+<div class="p-d-flex p-ai-center p-jc-between">
+    <div class="p-d-flex flex-column flex-lg-row p-pl-3">
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._tuNgay" inputId="icon" placeholder="Từ ngày" (onSelect)="ChangeOpt()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._denNgay" inputId="icon" placeholder="Đến ngày" (onSelect)="ChangeOpt()">
+            </p-calendar>
+        </div>
+    </div>
+</div>
+<div class="p-grid" style="align-self: stretch;">
+    <div class="p-col-12 p-xl-8 p-lg-8 p-p-3">
+        <div class="chart">
+            <div class="p-d-flex flex-column flex-lg-row p-jc-between">
+                <div>
+                    <h5>
+                        {{filterNhuCau.Kho ==='8cb622a8-b2c5-4232-a9f1-7fdebb40e3cb'?'Sản lượng kế hoạch và thực
+                        hiện':'Nhu cầu sử dụng bông'}}
+                    </h5>
+                </div>
+                <div class="p-d-flex flex-column flex-lg-row">
+                    <div class="p-mr-2">
+                        <p-dropdown [filter]="true" [options]="listLoaiBong" placeholder="Chọn loại bông"
+                            styleClass="p-inputtext-sm" [(ngModel)]="filter.IddmLoaiBong" (onChange)="ChangeOpt()">
+                        </p-dropdown>
+                    </div>
+                    <div class="p-mr-2">
+                        <p-dropdown [filter]="true" [options]="listKho" placeholder="Chọn kho"
+                            styleClass="p-inputtext-sm" [(ngModel)]="filter.IddmKho" (onChange)="ChangeOpt()">
+                        </p-dropdown>
+                    </div>
+                    <!-- <div style="display:table;height:100%">
+                        <a style="display: table-cell; vertical-align: middle;" href="javascript:void(0)">Cân đối
+                            tồn</a>
+                    </div> -->
+                </div>
+            </div>
+            <p-chart type="line" [data]=dataSet1 [options]="option1"></p-chart>
+        </div>
+    </div>
+
+    <div class="p-col-12 p-xl-4 p-lg-4 p-p-3">
+        <div class="chart text-left">
+            <h5>{{filterNhuCau.Kho ==='8cb622a8-b2c5-4232-a9f1-7fdebb40e3cb'?'Cơ cấu mặt hàng':'Cơ cấu bông'}}</h5>
+            <p-chart type="pie" [data]="dataPie" [options]='optionPie'></p-chart>
+        </div>
+    </div>
+</div>
+<div class="p-grid" style="align-self: stretch;">
+    <div class="p-col-12 p-xl-12 p-lg-8 p-p-3">
+        <div class="chart text-left">
+            <div class="p-d-flex flex-column flex-lg-row">
+                <h5 class="p-mb-0 p-mr-2 p-mt-2">
+                    Cân đối tồn
+                </h5>
+                <div class="p-mr-2">
+                    <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                        [(ngModel)]="filter._tuNgayCanDoiTon" inputId="icon" placeholder="Từ ngày"
+                        (onSelect)="ChangeOpt()">
+                    </p-calendar>
+                </div>
+                <div class="p-mr-2">
+                    <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                        [(ngModel)]="filter._denNgayCanDoiTon" inputId="icon" placeholder="Đến ngày"
+                        (onSelect)="ChangeOpt()">
+                    </p-calendar>
+                </div>
+            </div>
+            <p-table [value]="listItem" styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines" [scrollable]="true" scrollHeight="260px">
+                <ng-template pTemplate="colgroup">
+                    <colgroup>
+                        <col>
+                    </colgroup>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại bông</th>
+                        <th>Lô bông</th>
+                        <th>Hợp đồng P/O</th>
+                        <th>Tồn đầu</th>
+                        <th>Nhập trong kỳ</th>
+                        <th>Xuất trong kỳ</th>
+                        <th>Tồn cuối kỳ</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr [ngClass]="{'p-text-bold': item.TendmLoaiBong=='TỔNG'}">
+                        <td class="text-center">{{item.Ngay|date:'dd/MM/yyyy'}}</td>
+                        <td>{{item.TendmLoaiBong}}</td>
+                        <td>{{item.TenLoBong}}</td>
+                        <td>{{item.SoHopDong}}</td>
+                        <td class="text-right">{{item.DauSoLuong|number:'0.0' }}</td>
+                        <td class="text-right">{{item.NhapSoLuong|number:'0.0' }}</td>
+                        <td class="text-right">{{item.XuatSoLuong|number:'0.0' }}</td>
+                        <td class="text-right">{{item.CuoiSoLuong|number:'0.0' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+:host ::ng-deep .p-tree{
+    padding: 0px !important;
+    border: none !important;
+}
+:host ::ng-deep th{
+    text-align: center !important;
+}
+:host ::ng-deep .p-paginator{
+    padding: 0px !important;
+}

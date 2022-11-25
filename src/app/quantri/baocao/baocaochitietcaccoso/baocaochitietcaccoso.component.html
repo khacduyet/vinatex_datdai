@@ -1,0 +1,62 @@
+<div class="text-center bg-white p-4">
+    <h5>BÁO CÁO CHI TIẾT CÁC CƠ SỞ NHÀ, ĐẤT THUỘC SỞ HỮU NHÀ NƯỚC CỦA TẬP ĐOÀN DỆT MAY VIỆT NAM</h5>
+    <div class="p-d-flex p-flex-row p-mb-3">
+        <button pButton [label]="vung.Ten" icon="pi pi-chevron-down" iconPos="right" (click)="chonVung.toggle($event)"
+            class="p-button-sm p-button-secondary p-button-outlined right-icon"></button>
+        <p-overlayPanel #chonVung>
+            <ng-template pTemplate>
+                <!-- selectionMode="checkbox"  -->
+                <p-tree [value]="vungs" [filter]="true" selectionMode="single" [(selection)]="selectedFile"
+                    (onNodeSelect)="nodeSelect($event)"></p-tree>
+            </ng-template>
+        </p-overlayPanel>
+    </div>
+    <p-table [value]="items" styleClass="p-datatable-gridlines p-datatable-sm" [scrollable]="true">
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col style="width:50px">
+                <col style="width:200px;">
+                <col style="width:80px">
+                <col style="width:120px">
+                <col style="width:120px">
+                <col style="width:120px">
+                <col style="width:300px">
+                <col style="width:300px">
+                <col style="width:300px">
+            </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th rowspan="2" ></th>
+                <th rowspan="2">TÊN ĐƠN VỊ - ĐỊA CHỈ NHÀ,BÁO CÁO</th>
+                <th rowspan="2">Số cơ sở</th>
+                <th rowspan="2" >DT đất</th>
+                <th rowspan="2">DT sàn</th>
+                <th rowspan="2">PHƯƠNG ÁN PHÊ DUYỆT</th>
+                <th rowspan="2">Nội dung phê duyệt</th>
+                <th colspan="2">Hiện trạng sử dụng</th>
+            </tr>
+            <tr style="font-style: italic">
+                <th style="font-weight: 300 !important">Tình hình và kết quả hoàn thiện hồ sơ pháp lý</th>
+                <th style="font-weight: 300 !important">Thực tế sử dụng</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr>
+                <td>{{i+1}}</td>
+                <td>
+                    <div [style.padding-left]="item.Level*10+'px'">
+                        {{item.TenDonVi}}
+                    </div>
+                </td>
+                <td class="text-center">{{item.SoCoSo}}</td>
+                <td class="text-center">{{item.DienTichDat}}</td>
+                <td class="text-center">{{item.DienTichSan}}</td>
+                <td ><p style="white-space: pre-wrap;">{{item.PhuongAnPheDuyet}}</p></td>
+                <td><p style="white-space: pre-wrap;">{{item.NoiDungPheDuyet}}</p></td>
+                <td ><p style="white-space: pre-wrap;">{{item.TinhHinhHoSo}}</p></td>
+                <td ><p style="white-space: pre-wrap;">{{item.ThucTeSuDung}}</p></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

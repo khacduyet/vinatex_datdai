@@ -1,0 +1,53 @@
+<div class="p-mb-3 p-mt-3">
+    <h4 style="color:#1f2779">Cân đối dây chuyền</h4>
+</div>
+<div class="p-d-flex p-ai-center p-jc-between">
+    <div class="p-d-flex flex-column flex-lg-row p-pl-3">
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._tuNgay" inputId="icon" placeholder="Từ ngày" (onSelect)="GetCalendar(true)">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._denNgay" inputId="icon" placeholder="Đến ngày" (onSelect)="GetCalendar(true)">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listPhanXuong" placeholder="Chọn phân xưởng"
+                styleClass="p-inputtext-sm" [(ngModel)]="filter.IddmPhanXuong" (onChange)="GetCalendar(true)"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listCongDoan" placeholder="Chọn công đoạn"
+                styleClass="p-inputtext-sm" [(ngModel)]="filter.CongDoan" (onChange)="GetCalendar(true)"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+            <button pButton pRipple type="button" label="Lọc" class="p-button-sm"
+                (click)="GetCalendar(true)"></button>
+        </div>
+        <div>
+            <button pButton pRipple type="button" label="Kiểm tra sản lượng" class="p-button-sm"
+                (click)="showSanLuong()"></button>
+        </div>
+    </div>
+</div>
+<ul style="margin-top: 10px;">
+    <li class="days" *ngFor="let day of listDays" > {{day}} </li>
+    <li *ngFor="let date of listDates; let i = index" [ngClass]="{'dates': date.header!=='none','none':date.header==='none'}" (click)="boTriMay(i,date)">
+        <!-- {{date.value | date:'d'}} -->
+        <div style="font-weight: bold;">
+            {{date.header}}
+        </div>
+        <div *ngIf="date.header==='none'" style="height: 20px;width: 100%; position: absolute;z-index: 2;top:0"></div>
+        <div *ngIf="date.header!=='none'" style="width: 99%;">
+            <p><ngb-progressbar type="info" [value]="(date.SoMayDaBoTri/date.TongSoMay)*100"><b>{{date.SoMayDaBoTri}}/{{date.TongSoMay}}</b></ngb-progressbar></p>
+        </div>
+        <div *ngIf="date.header!=='none'" style="width: 100%; text-align: center">Cần bố trí: <span class="required">{{date.SoMayCanBoTri|number:'0.0-1'}}</span></div>
+    </li>
+</ul>
+<p-dialog header="Sản lượng" [(visible)]="showDialog" [modal]="true" [style]="{width: '99vw'}" [baseZIndex]="10000">
+   <app-sanluong [TuNgay]="this.filter._tuNgay" [DenNgay]="this.filter._denNgay" [CongDoan]="this.filter.CongDoan"></app-sanluong>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-times" (click)="showDialog=false" label="Đóng" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,371 @@
+<p-table [value]="listHTSD" dataKey="ID" editMode="row"
+    styleClass="p-datatable-sm unset-width p-datatable-responsive-demo wrap-text" *ngIf="showTable" [scrollable]="opt==='modal'">
+    <ng-template pTemplate="colgroup">
+        <col style="width: 50px;">
+        <col style="width: 200px;">
+        <col style="width: 150px;">
+        <col style="width: 250px;">
+        <col style="width: 200px;">
+        <col style="width: 200px;">
+        <col [ngStyle]="{'width': opt==='modal'?'200px':'unset'}">
+        <col [ngStyle]="{'width': opt==='modal'?'200px':'unset'}">
+        <col style="width: 100px;">
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>STT</th>
+            <th>Nội dung</th>
+            <th>Diện tích(m<sup>2</sup>)</th>
+            <th>Đối tượng sử dụng</th>
+            <th>Thời gian</th>
+            <th>Hiện trạng</th>
+            <th>Phương án xử lý</th>
+            <th>Ghi chú</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-HTSD let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="HTSD">
+            <td>{{ri+1}}</td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <textarea [rows]="3" class="p-inputtextarea" pInputTextarea autoResize="autoResize"
+                            [ngModel]="HTSD.NoiDung" (ngModelChange)="HTSD.NoiDung=vietHoaChuCaiDau($event)"></textarea>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.NoiDung}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <div class="p-inputgroup">
+                            <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="HTSD.DienTich">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.DienTich|number}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center date">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <div class="p-inputgroup">
+                            <div style="width: 200px !important;">
+                                <p-dropdown [filter]="true" [options]="listdmDonViSoHuuDatNha"
+                                    placeholder="Chọn đối tượng sử dụng" styleClass="p-inputtext-sm"
+                                    [(ngModel)]="HTSD.IDDonViSoHuuNhaDat" optionLabel="Ten"></p-dropdown>
+                            </div>
+                            <button type="button" pButton pRipple icon="pi pi-plus"
+                                class="p-button-secondary p-button-text p-button-sm"
+                                (click)="editThongTinChoThue(HTSD)"></button>
+                        </div>
+                        <!-- <div class="p-inputgroup">
+                            <div style="width: 200px !important;">
+                                <p-dropdown [filter]="true" [options]="listdmDonViSoHuuDatNha"
+                                    placeholder="Chọn đối tượng sử dụng" styleClass="p-inputtext-sm" [showClear]="true"
+                                    [(ngModel)]="newHTSD.IDDonViSoHuuNhaDat" optionLabel="Ten" scrollHeight="130px">
+                                </p-dropdown>
+                            </div>
+                            <button type="button" pButton pRipple icon="pi pi-plus"
+                                class="p-button-secondary p-button-text p-button-sm" (click)="addThongTinChoThue()"></button>
+                        </div> -->
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.TenDonViSoHuuNhaDat}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center date">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="HTSD.ThoiGian"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.ThoiGian|date:'dd/MM/yyyy'}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <!-- <div class="p-inputgroup">
+                                <div style="flex:1"> -->
+                        <p-dropdown [filter]="true" [options]="listdmHienTrangSuDung"
+                            placeholder="Chọn danh mục hiện trạng sử dụng" styleClass="p-inputtext-sm"
+                            [(ngModel)]="HTSD.IDdmHienTrangSuDung" optionLabel="Ten">
+                        </p-dropdown>
+                        <!-- </div>
+                                <button type="button" pButton pRipple icon="pi pi-plus"
+                                    class="p-button-secondary p-button-text p-button-sm"
+                                    *ngIf="HTSD.IDdmHienTrangSuDung?.Ma==='CHO_THUE'"></button>
+                            </div> -->
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <div>
+                            {{HTSD.TendmHienTrangSuDung}}
+                        </div>
+                        <div *ngIf="HTSD.MadmHienTrangSuDung==='CHO_THUE'">
+                            Giá: {{HTSD.GiaChoThue|number:'0.0'}} Triệu đồng
+                        </div>
+                        <div *ngIf="HTSD.MadmHienTrangSuDung==='CHO_THUE'">
+                            Số năm: {{HTSD.SoNamThue}}
+                        </div>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [ngModel]="HTSD.PhuongAnSapXep"
+                            (ngModelChange)="HTSD.PhuongAnSapXep=vietHoaChuCaiDau($event)" required>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.PhuongAnSapXep}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td class="text-center">
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" [ngModel]="HTSD.GhiChu"
+                            (ngModelChange)="HTSD.GhiChu=vietHoaChuCaiDau($event)" required>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{HTSD.GhiChu}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td style="text-align:center" class="date" *ngIf="opt!=='modal'">
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                    class="p-button-text p-button-sm p-button-secondary p-mr-2" (click)="getChangeEdit(HTSD)"></button>
+                <button *ngIf="!editing" pButton pRipple type="button" (click)="delete(HTSD)" icon="pi pi-trash"
+                    class="p-button-text p-button-sm p-button-secondary"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow (click)="doneEdit(HTSD)"
+                    icon="pi pi-check" class="p-button-text p-button-sm p-button-secondary p-mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow (click)="cancelEdit(HTSD)"
+                    icon="pi pi-times" class="p-button-text p-button-sm p-button-secondary"></button>
+            </td>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="footer" *ngIf="opt!=='modal'">
+        <tr>
+            <td></td>
+            <td>
+                <input pInputText type="text" [ngModel]="newHTSD.NoiDung"
+                    (ngModelChange)="newHTSD.NoiDung=vietHoaChuCaiDau($event)">
+            </td>
+            <td>
+                <div class="p-inputgroup">
+                    <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newHTSD.DienTich">
+                    </p-inputNumber>
+                    <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                </div>
+            </td>
+            <td class="date">
+                <div class="p-inputgroup">
+                    <div style="width: 200px !important;">
+                        <p-dropdown [filter]="true" [options]="listdmDonViSoHuuDatNha"
+                            placeholder="Chọn đối tượng sử dụng" styleClass="p-inputtext-sm" [showClear]="true"
+                            [(ngModel)]="newHTSD.IDDonViSoHuuNhaDat" optionLabel="Ten" scrollHeight="130px">
+                        </p-dropdown>
+                    </div>
+                    <button type="button" pButton pRipple icon="pi pi-plus"
+                        class="p-button-secondary p-button-text p-button-sm" (click)="addThongTinChoThue()"></button>
+                </div>
+            </td>
+            <td class="date">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                    [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="newHTSD.ThoiGian"
+                    inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                </p-calendar>
+            </td>
+            <td>
+                <p-dropdown [filter]="true" [options]="listdmHienTrangSuDung"
+                    placeholder="Chọn danh mục hiện trạng sử dụng" styleClass="p-inputtext-sm"
+                    [(ngModel)]="newHTSD.IDdmHienTrangSuDung" (onChange)="changeHienTrangSuDung($event)"
+                    optionLabel="Ten" scrollHeight="130px"></p-dropdown>
+            </td>
+            <td>
+                <input pInputText type="text" [ngModel]="newHTSD.PhuongAnSapXep"
+                    (ngModelChange)="newHTSD.PhuongAnSapXep=vietHoaChuCaiDau($event)">
+            </td>
+            <td>
+                <input pInputText type="text" [ngModel]="newHTSD.GhiChu"
+                    (ngModelChange)="newHTSD.GhiChu=vietHoaChuCaiDau($event)">
+            </td>
+            <td class="date" style="text-align:center">
+                <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-plus"
+                    class="p-button-rounded p-button-sm " (click)="add()"></button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<div style="width: 100% !important;overflow-x: auto;">
+
+    <div style="display: table;width: 100% !important;  border-collapse: collapse;" *ngIf="!showTable">
+        <div style="display:table-row; border-bottom: 1px solid #ccc;" *ngFor="let HTSD of listHTSD ;let i = index">
+            <div style="display:table-cell;padding:5px;width: 50px;text-align: center;">
+                {{i+1}}
+            </div>
+            <div style="display:table-cell;padding:5px;word-wrap: break-word !important;">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6" *ngIf="!HTSD.editting"><label>Nội dung:</label> {{HTSD.NoiDung}}</div>
+                    <div class="p-col-12 p-md-6" *ngIf="!HTSD.editting"><label>Diện tích:</label> {{HTSD.DienTich|number}}
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="!HTSD.editting"><label>Đối tượng sử dụng:</label>
+                        {{HTSD.TenDonViSoHuuNhaDat}}</div>
+                    <div class="p-col-12 p-md-6" *ngIf="!HTSD.editting"><label>Thời gian:</label>
+                        {{HTSD.ThoiGian|date:'dd/MM/yyyy'}}</div>
+                    <div class="p-col-12 p-md-6 p-d-flex p-flex-row" *ngIf="!HTSD.editting">
+                        <label>Hiện trạng:</label>
+                        <div>
+                            <div>
+                                {{HTSD.TendmHienTrangSuDung}}
+                            </div>
+                            <div *ngIf="HTSD.MadmHienTrangSuDung==='CHO_THUE'">
+                                Giá: {{HTSD.GiaChoThue|number:'0.0'}} Triệu đồng
+                            </div>
+                            <div *ngIf="HTSD.MadmHienTrangSuDung==='CHO_THUE'">
+                                Số năm: {{HTSD.SoNamThue}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="!HTSD.editting"><label>Phương án xử lý:</label>
+                        {{HTSD.PhuongAnSapXep}}</div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Nội dung:</label>
+                        <input pInputText type="text" [ngModel]="HTSD.NoiDung"
+                            (ngModelChange)="HTSD.NoiDung=vietHoaChuCaiDau($event)">
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Diện tích:</label>
+                        <div class="p-inputgroup">
+                            <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="HTSD.DienTich">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <div style="display: flex;flex-direction: row;">
+                            <label>Đối tượng sử dụng:</label>
+                            <button type="button" pButton pRipple icon="pi pi-plus"
+                                class="p-button-secondary p-button-text p-button-sm"
+                                (click)="addThongTinChoThue()"></button>
+                        </div>
+                        <p-dropdown [filter]="true" [options]="listdmDonViSoHuuDatNha" placeholder="Chọn đối tượng sử dụng"
+                            styleClass="p-inputtext-sm" [showClear]="true" [(ngModel)]="HTSD.IDDonViSoHuuNhaDat"
+                            optionLabel="Ten">
+                        </p-dropdown>
+    
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Thời gian:</label>
+                        <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="HTSD.ThoiGian"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Hiện trạng:</label>
+                        <p-dropdown [filter]="true" [options]="listdmHienTrangSuDung"
+                            placeholder="Chọn danh mục hiện trạng sử dụng" styleClass="p-inputtext-sm"
+                            [(ngModel)]="HTSD.IDdmHienTrangSuDung" (onChange)="changeHienTrangSuDung($event)"
+                            optionLabel="Ten" scrollHeight="130px"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Phương án xử lý:</label>
+                        <input pInputText type="text" [ngModel]="HTSD.PhuongAnSapXep"
+                            (ngModelChange)="HTSD.PhuongAnSapXep=vietHoaChuCaiDau($event)">
+                    </div>
+                    <div class="p-col-12 p-md-6" *ngIf="HTSD.editting">
+                        <label>Ghi chú:</label>
+                        <input pInputText type="text" [ngModel]="HTSD.GhiChu"
+                            (ngModelChange)="HTSD.GhiChu=vietHoaChuCaiDau($event)">
+                    </div>
+                </div>
+            </div>
+            <div style="display:table-cell;padding:5px; width: 100px;text-align: center;">
+                <button *ngIf="!HTSD.editting" pButton pRipple type="button" icon="pi pi-pencil"
+                    class="p-button-text p-button-sm p-button-secondary p-mr-2" (click)="edit(HTSD)"></button>
+                <button *ngIf="!HTSD.editting" pButton pRipple type="button" (click)="delete(HTSD)" icon="pi pi-trash"
+                    class="p-button-text p-button-sm p-button-secondary"></button>
+                <button *ngIf="HTSD.editting" pButton pRipple type="button" (click)="doneEdit(HTSD)"
+                    icon="pi pi-check" class="p-button-text p-button-sm p-button-secondary p-mr-2"></button>
+                <button *ngIf="HTSD.editting" pButton pRipple type="button" (click)="cancelEdit(HTSD)"
+                    icon="pi pi-times" class="p-button-text p-button-sm p-button-secondary"></button>
+            </div>
+        </div>
+        <div style="display:table-row; border-bottom: 1px solid #ccc;">
+            <div style="display:table-cell;padding:5px;width: 50px;text-align: center;">
+            </div>
+            <div style="display:table-cell;padding:5px">
+                <div class="p-grid">
+                    <div class="p-col-12 p-md-6">
+                        <label>Nội dung:</label>
+                        <input pInputText type="text" [ngModel]="newHTSD.NoiDung"
+                            (ngModelChange)="newHTSD.NoiDung=vietHoaChuCaiDau($event)">
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <label>Diện tích:</label>
+                        <div class="p-inputgroup">
+                            <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newHTSD.DienTich">
+                            </p-inputNumber>
+                            <span class="p-inputgroup-addon">m<sup>2</sup></span>
+                        </div>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <div style="display: flex;flex-direction: row;">
+                            <label>Đối tượng sử dụng:</label>
+                            <button type="button" pButton pRipple icon="pi pi-plus"
+                                class="p-button-secondary p-button-text p-button-sm"
+                                (click)="addThongTinChoThue()"></button>
+                        </div>
+                        <p-dropdown [filter]="true" [options]="listdmDonViSoHuuDatNha" placeholder="Chọn đối tượng sử dụng"
+                            styleClass="p-inputtext-sm" [showClear]="true" [(ngModel)]="newHTSD.IDDonViSoHuuNhaDat"
+                            optionLabel="Ten">
+                        </p-dropdown>
+    
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <label>Thời gian:</label>
+                        <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [monthNavigator]="true"
+                            [yearNavigator]="true" [yearRange]="yearRange" [locale]="lang" [(ngModel)]="newHTSD.ThoiGian"
+                            inputId="icon" [showIcon]="true" placeholder="dd/mm/yyyy">
+                        </p-calendar>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <label>Hiện trạng:</label>
+                        <p-dropdown [filter]="true" [options]="listdmHienTrangSuDung"
+                            placeholder="Chọn danh mục hiện trạng sử dụng" styleClass="p-inputtext-sm"
+                            [(ngModel)]="newHTSD.IDdmHienTrangSuDung" (onChange)="changeHienTrangSuDung($event)"
+                            optionLabel="Ten" scrollHeight="130px"></p-dropdown>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <label>Phương án xử lý:</label>
+                        <input pInputText type="text" [ngModel]="newHTSD.PhuongAnSapXep"
+                            (ngModelChange)="newHTSD.PhuongAnSapXep=vietHoaChuCaiDau($event)">
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <label>Ghi chú:</label>
+                        <input pInputText type="text" [ngModel]="newHTSD.GhiChu"
+                            (ngModelChange)="newHTSD.GhiChu=vietHoaChuCaiDau($event)">
+                    </div>
+                </div>
+            </div>
+            <div style="display:table-cell;padding:5px; width: 100px;text-align: center;">
+                <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-sm "
+                    (click)="add()"></button>
+            </div>
+        </div>
+    </div>
+</div>

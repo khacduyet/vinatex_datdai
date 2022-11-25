@@ -1,0 +1,41 @@
+<div class="p-d-flex">
+    <div class="p-d-flex flex-column flex-lg-row p-pl-3" style="width: 100%;">
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listNhaMay" placeholder="Chọn nhà máy" styleClass="p-inputtext-sm"
+                [(ngModel)]="filter.IdDuAn" (onChange)="getPhanXuongTheoNhaMay()"></p-dropdown>
+        </div>
+        <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listPhanXuong" placeholder="Chọn phân xưởng"
+                styleClass="p-inputtext-sm" [(ngModel)]="filter.IddmPhanXuong" (onChange)="GetBieuDo()"></p-dropdown>
+        </div>
+        <!-- <div class="p-mr-2">
+            <p-dropdown [filter]="true" [options]="listMatHang" placeholder="Chọn mặt hàng" styleClass="p-inputtext-sm"
+                [(ngModel)]="filter.IddmItem" (onChange)="GetBieuDo()"></p-dropdown>
+        </div> -->
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._tuNgay" inputId="icon" placeholder="Từ ngày" (onSelect)="GetBieuDo()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                [(ngModel)]="filter._denNgay" inputId="icon" placeholder="Đến ngày" (onSelect)="GetBieuDo()">
+            </p-calendar>
+        </div>
+        <div class="p-mr-2">
+            <button pButton label="Lọc" (click)="GetBieuDo()"
+                class="p-button-sm mr-4"></button>
+        </div>
+    </div>
+</div>
+<div class="p-d-flex flex-column flex-lg-row">
+    <div class="p-col-12 p-lg-6 p-jc-center" style="height: calc(100vh - 131.75px);position: relative;">
+        <div class="voi-info-container">
+            <div class="voi-info">Thông lượng sản phẩm lớn nhất: <span style="font-weight: bold;">{{infos.SanPhamMax.TenItem}} - {{infos.SanPhamMax.TongKhoiLuong|number:'0.0-2'}}kg</span></div>
+            <div class="voi-info">Thông lượng sản phẩm nhỏ nhất: <span style="font-weight: bold;">{{infos.SanPhamMin.TenItem}} - {{infos.SanPhamMin.TongKhoiLuong|number:'0.0-2'}}kg</span></div>
+            <div class="voi-info">Thông lượng thời gian sản xuất lớn nhất: <span style="font-weight: bold;">{{infos.NgayMax.Ngay|date:'dd/MM/yyyy'}} - {{infos.NgayMax.TongKhoiLuong|number:'0.0-2'}}kg</span></div>
+            <div class="voi-info">Thông lượng thời gian sản xuất nhỏ nhất: <span style="font-weight: bold;">{{infos.NgayMin.Ngay|date:'dd/MM/yyyy'}} - {{infos.NgayMin.TongKhoiLuong|number:'0.0-2'}}kg</span></div>
+        </div>
+    </div>
+    <div id="ThongLuongChart" class="p-col-12 p-lg-6" style="height: calc(100vh - 131.75px)"></div>
+</div>

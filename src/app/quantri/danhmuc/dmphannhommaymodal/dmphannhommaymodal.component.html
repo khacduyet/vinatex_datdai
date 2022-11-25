@@ -1,0 +1,264 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"
+                [disabled]="khongclicknhieu"></button>
+            <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+                (click)="activeModal.dismiss()"></button>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Mã<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.Ma" pInputText />
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Tên<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.Ten" pInputText />
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Đơn vị năng suất:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [filter]="false" [options]="listDonViNangSuat" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.DonViNangSuat"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Công đoạn<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [filter]="false" [options]="listCongDoan" styleClass="p-inputtext-sm"
+                    placeholder="Chọn công đoạn" [(ngModel)]="item.CongDoan" (onChange)="changeCongDoan($event)">
+                </p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-5 p-p-0 my-auto">Phân xưởng<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-7 p-p-0">
+                <p-dropdown [filter]="false" [options]="listPhanXuong" styleClass="p-inputtext-sm"
+                    placeholder="Chọn phân xưởng" [(ngModel)]="item.IddmPhanXuong"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Ghi chú:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.GhiChu" pInputText />
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Đầu ra:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.SoDauRa"
+                    (onBlur)="tinhNangSuatLyThuyet()">
+                </p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-4 p-d-flex p-flex-row" *ngIf="item.CongDoan==='THO'">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Số cọc:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.SoCoc" (onBlur)="item_tinhNangSuatLyThuyet()">
+                </p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 p-p-0 d-flex flex-column">
+            <div class="p-d-flex p-flex-sm-row p-jc-between p-mt-3 p-mb-3"
+                *ngIf="item.CongDoan == 'CON' || item.CongDoan == 'ONG'">
+                <div class="p-d-flex p-flex-row">
+                    <button pButton pRipple [label]="childModalOpt==='MATHANG'?'Chọn mặt hàng':'Chọn loại sợi'"
+                        icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="DanhSachHang()"></button>
+                </div>
+                <div class="p-d-flex p-flex-row">
+                    <div class="p-inputgroup">
+                        <input type="text" placeholder="Tìm kiếm" [(ngModel)]="filter.KeyWord"
+                            (keyup.enter)="TimKiem(true)" class="p-inputtext-sm" pInputText />
+                        <button type="button" pButton pRipple icon="pi pi-refresh"
+                            class="p-button-secondary p-button-text" (click)="resetFilter()" pTooltip="Làm mới"
+                            showDelay="1000" tooltipPosition="bottom"></button>
+                        <button type="button" pButton pRipple icon="pi pi-search"
+                            class="p-button-secondary p-button-sm p-button-text" pTooltip="Tìm kiếm" showDelay="1000"
+                            tooltipPosition="bottom"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-table [value]="item.lstdmItem|isXoa|filter:filter.KeyWord" [(selection)]="selectedItems"
+            styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines" [scrollable]="false"
+            scrollHeight="300px">
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                    <col style="width:50px">
+                    <col *ngIf="childModalOpt!==''" style="width: 14rem;">
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col style="width: 50px;" *ngIf="childModalOpt!==''">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <!-- <th>
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th> -->
+                    <th class="text-center">STT</th>
+                    <th *ngIf="childModalOpt!==''">{{childModalOpt==='MATHANG'?'Mặt hàng':'Loại sợi'}}</th>
+
+                    <th>Chi số Ne</th>
+                    <th>Chi số mét Nm</th>
+                    <th>Độ săn</th>
+                    <th>Tốc độ (v/f, m/f, Nips/p)</th>
+
+                    <th>Năng suất LT</th>
+                    <th>Hiệu suất (%)</th>
+                    <th>Định mức năng suất</th>
+                    <th>ĐM áp dụng</th>
+                    <th>Ghi chú</th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <!-- *ngIf="childModalOpt!==''" -->
+                    <td class="text-center">
+                        {{ i + 1 }}
+                    </td>
+                    <td *ngIf="childModalOpt!==''">
+                        <!-- <input type="text" class="p-inputtext-sm" [(ngModel)]="item.Ten" pInputText
+                        [disabled]="true" /> -->
+                        <p-dropdown [filter]="true" [options]="listLoaiSoiHoacMatHang" styleClass="p-inputtext-sm"
+                            [(ngModel)]="item.Iditem" optionLabel="Ten" optionValue="Id"
+                            (onChange)="changeLoaiSoiHoacMatHang($event,item)"></p-dropdown>
+                    </td>
+                    <td>
+                        <!-- [disabled]="childModalOpt==='MATHANG'" -->
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.Ne"
+                            (onBlur)="tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.Nm"
+                            (onBlur)="tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.DoSan"
+                            [disabled]="childModalOpt==='MATHANG'">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.TocDo"
+                            (onBlur)="tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.NangSuat"
+                            (onBlur)="tinhNangSuatLyThuyet()" [disabled]="true">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.HieuSuat"
+                            (onBlur)="tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.DinhMucNangSuat"
+                            [disabled]="true">
+                        </p-inputNumber>
+                    </td>
+                    <td class="text-center">
+                        <p-checkbox [(ngModel)]="item.isApDung" binary="true" inputId="binary" (onChange)="changeDMApDung(item)"></p-checkbox>
+                    </td>
+                    <td>
+                        <input type="text" class="p-inputtext-sm" [(ngModel)]="item.GhiChu" pInputText />
+                    </td>
+                    <!-- *ngIf="childModalOpt!==''" -->
+                    <td class="text-center">
+                        <!-- <button pButton pRipple type="button" icon="pi pi-trash"
+                        class="p-button-text p-button-sm p-button-secondary" (click)="delete(item)" pTooltip="Xóa" showDelay="1000" tooltipPosition="bottom"></button> -->
+                        <button pButton pRipple icon="pi pi-trash"
+                            class="p-button-sm p-button-rounded p-button-secondary p-button-text p-mr-2"
+                            (click)="delete(i)" pTooltip="Xóa" showDelay="1000" tooltipPosition="bottom"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr *ngIf="item.CongDoan !== 'CON' && item.CongDoan !== 'ONG'">
+                    <td class="text-center">
+                        #
+                    </td>
+                    <td *ngIf="childModalOpt!==''">
+                        <!-- <input type="text" class="p-inputtext-sm" [(ngModel)]="newTableItem.Ten" pInputText
+                        [disabled]="true" /> -->
+                        <p-dropdown [filter]="true" [options]="listLoaiSoiHoacMatHang" styleClass="p-inputtext-sm"
+                            [(ngModel)]="newTableItem.Iditem" optionLabel="Ten" optionValue="Id"
+                            (onChange)="changeLoaiSoiHoacMatHang($event,newTableItem)"></p-dropdown>
+                    </td>
+                    <td>
+                        <!-- [disabled]="childModalOpt==='MATHANG'" -->
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newTableItem.Ne"
+                            (onBlur)="item_tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newTableItem.Nm"
+                            (onBlur)="item_tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newTableItem.DoSan"
+                            [disabled]="childModalOpt==='MATHANG'">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="newTableItem.TocDo"
+                            (onBlur)="item_tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newTableItem.NangSuat"
+                            (onBlur)="item_tinhNangSuatLyThuyet()" [disabled]="true">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="newTableItem.HieuSuat"
+                            (onBlur)="item_tinhNangSuatLyThuyet()">
+                        </p-inputNumber>
+                    </td>
+                    <td>
+                        <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="newTableItem.DinhMucNangSuat"
+                            [disabled]="true">
+                        </p-inputNumber>
+                    </td>
+                    <td class="text-center">
+                        <p-checkbox [(ngModel)]="newTableItem.isApDung" binary="true" inputId="binary" (onChange)="changeDMApDung(newTableItem)"></p-checkbox>
+                    </td>
+                    <td>
+                        <input type="text" class="p-inputtext-sm" [(ngModel)]="newTableItem.GhiChu" pInputText />
+                    </td>
+                    <td class="text-center">
+                        <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-sm "
+                            (click)="add()"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<div class="modal-footer">
+    <!-- <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"
+        [disabled]="khongclicknhieu"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+        (click)="activeModal.dismiss()"></button> -->
+</div>

@@ -1,0 +1,52 @@
+<div class="text-center bg-white p-4">
+    <h5>BÁO CÁO SẢN LƯỢNG CHI TIẾT</h5>
+    <div class="p-d-flex p-ai-center p-jc-between p-mb-3">
+        <div>
+            <p-tabView (onChange)="changeTab($event)" styleClass="no-content">
+                <p-tabPanel header="Theo máy">
+                </p-tabPanel>
+                <p-tabPanel header="Theo mặt hàng">
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+        <div class="p-d-flex p-flex-row">
+            <!-- <div class="p-mr-2">
+                <p-dropdown [options]="listLoaiPhuongAn" placeholder="Chọn phương án" styleClass="p-inputtext-sm"
+                    [(ngModel)]="filter.LoaiPhuongAn" optionLabel="name" [showClear]="true"></p-dropdown>
+            </div> -->
+            <div class="p-mr-2">
+                <p-calendar dateFormat="dd/mm/yy" inputStyleClass="p-inputtext-sm" [showIcon]="true"
+                    [(ngModel)]="filter.Ngay" inputId="icon" placeholder="Ngày">
+                </p-calendar>
+            </div>
+            <div style="margin: auto;">
+                <p-checkbox [(ngModel)]="filter.checkLuyKe" (onChange)="changeLuyKe($event)" binary="true" inputId="binary"></p-checkbox>
+                <label style="margin: auto 0px auto 10px;" for="binary">Lũy kế</label>
+            </div>
+        </div>
+    </div>
+    <p-table [value]="items" styleClass="p-datatable-gridlines p-datatable-sm">
+        <ng-template pTemplate="header">
+            <tr>
+                <th rowspan="2">Công đoạn</th>
+                <th rowspan="2">Mặt hàng</th>
+                <th *ngFor="let th of r1" [attr.colspan]="th.cs" [attr.rowspan]="th.rs">
+                    {{th.label}}
+                </th>
+            </tr>
+            <tr>
+                <th *ngFor="let th of r2">
+                    {{th.label}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

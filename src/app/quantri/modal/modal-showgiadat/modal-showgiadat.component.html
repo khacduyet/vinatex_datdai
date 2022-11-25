@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <h5 class="modal-title">Thống kê
+        {{LoaiGiaDat==='GIA_DAT_THAM_KHAO'?'giá đất':'tổng tiền thuê/năm'}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p-table [value]="listGiaDat|isXoa:LoaiGiaDat" dataKey="id"
+        styleClass="p-datatable-sm p-datatable-responsive-demo">
+        <ng-template pTemplate="colgroup">
+            <col style="width: 50px;">
+            <col>
+            <col *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+            <col>
+            <col>
+            <col *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>STT</th>
+                <th *ngIf="LoaiGiaDat==='GIA_DAT_THAM_KHAO'">Năm</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Từ Ngày</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Đến Ngày</th>
+                <th>{{LoaiGiaDat==='GIA_DAT_THAM_KHAO'?'Đơn giá (Triệu đồng)':'Tổng tiền thuê/năm'}}</th>
+                <th *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">Đơn vị</th>
+                <th>Tài liệu đính kèm</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-GiaDat let-ri="rowIndex">
+            <tr >
+                <td class="text-center">{{ri+1}}</td>
+                <td class="text-center" *ngIf="LoaiGiaDat==='GIA_DAT_THAM_KHAO'">
+                            {{GiaDat.Nam}}
+                </td>
+                <td class="text-center"  *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                            {{GiaDat.TuNgay|date:'dd/MM/yyyy'}}
+                </td>
+                <td class="text-center"  *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                            {{GiaDat.DenNgay|date:'dd/MM/yyyy'}}
+                </td>
+                <td class="text-center" >
+                            {{GiaDat.Gia|number:"0.0"}}
+                </td>
+                <td class="text-center"  *ngIf="LoaiGiaDat==='GIA_THUE_DAT_HANG_NAM'">
+                            {{GiaDat.TendmDonViTien}}
+                </td>
+                <td class="text-center">
+                    <a href="" *ngIf="GiaDat.FileDinhKem!=null">{{GiaDat.FileDinhKem.TenGoc}}</a>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Đóng" icon="pi pi-trash" (click)="onClose()"
+        class="p-button-sm p-button-outlined p-button-secondary p-mr-2"></button>
+</div>

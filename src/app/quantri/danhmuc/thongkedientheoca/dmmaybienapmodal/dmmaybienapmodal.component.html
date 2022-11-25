@@ -1,0 +1,54 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{title}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Mã máy<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.Ma" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tên máy<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.Ten" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Nhà máy:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-dropdown [filter]="true" [options]="listnhamay" placeholder="Chọn" [(ngModel)]="item.idNhaMay"
+                styleClass="p-inputtext-sm" (onChange)="GetPhanXuong()"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Phân xưởng:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-dropdown [filter]="true" [options]="listphanxuong" placeholder="Chọn" [(ngModel)]="item.idPhanXuong"
+                styleClass="p-inputtext-sm"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Điện áp:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-dropdown [filter]="true" [options]="listdienap" placeholder="Chọn" [(ngModel)]="item.idLoaiDienKV"
+                styleClass="p-inputtext-sm"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-col-12 p-d-flex p-flex-row">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Ghi chú:</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <input type="text" class="p-inputtext-sm" (keyup.enter)="accept()" [(ngModel)]="item.GhiChu" pInputText />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()" [disabled]="khongclicknhieu"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+        (click)="activeModal.dismiss()"></button>
+</div>

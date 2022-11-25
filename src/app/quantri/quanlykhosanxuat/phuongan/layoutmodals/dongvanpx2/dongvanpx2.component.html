@@ -1,0 +1,187 @@
+<div class="modal-header">
+    <h5 class="modal-title">Phương án xếp bàn bông</h5>
+    <!-- {{opt==='add'?'Thêm mới':'Cập nhật'}}  -->
+    <div class="p-d-flex p-flex-row">
+        <div class="mr-2">Số quy trình:&nbsp;{{item.SoQuyTrinh}}</div>
+        <div class="mr-2">TG tạo:&nbsp;{{item.Created|date:'dd/MM/yyyy'}}</div>
+        <div class="mr-2">TG duyệt:&nbsp;{{item.Modified|date:'dd/MM/yyyy'}}</div>
+    </div>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="_activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-flex-row p-jc-between no-print">
+        <div class="modal-bt p-mb-4 ">
+            <button pButton pRipple type="button" label="Quay lại" class="p-mr-2 p-button-sm"
+                (click)="_activeModal.dismiss('close')"></button>
+            <button pButton pRipple type="button" label="Ghi lại" class="p-mr-2 p-button-sm " (click)="GhiLai()"
+                *ngIf="checkbutton.Ghi"></button>
+            <button pButton pRipple type="button" label="Xóa" class="p-mr-2 p-button-sm" *ngIf="checkbutton.Xoa"
+                (click)="XoaQuyTrinh()"></button>
+            <button pButton pRipple type="button" label="Không duyệt" class="p-mr-2 p-button-sm" (click)="KhongDuyet()"
+                *ngIf="checkbutton.KhongDuyet"></button>
+            <button pButton pRipple type="button" label="Chuyển duyệt" class="p-mr-2 p-button-sm"
+                (click)="ChuyenDuyet()" *ngIf="checkbutton.ChuyenTiep"></button>
+            <button pButton pRipple type="button" label="In" class="p-mr-2 p-button-sm" (click)="print()"></button>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col-12 p-lg-6 flex-column flex-lg-row d-flex no-print">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Số vị trí cộng thêm:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <!-- <input type="text" class="p-inputtext-sm" (onblur)="veLayout()" [(ngModel)]="SoViTriNgoaiQuan" pInputText /> -->
+                <div class="p-inputgroup">
+                    <p-inputNumber locale="vi-VN" [(ngModel)]="item.SoViTriNgoaiQuan" (onBlur)="veLayout()">
+                    </p-inputNumber>
+                    <button type="button" pButton pRipple icon="pi pi-check"
+                        class="p-button-success p-button-text p-button-sm"
+                        (click)="veLayout()"></button>
+                    <!-- <input type="text" class="p-inputtext-sm" pInputText disabled /> -->
+                </div>
+            </div>
+        </div>
+        <div class="p-col-12 p-lg-6 flex-column flex-lg-row d-flex no-print">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Vị trí ngoại quan bông:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <div class="p-inputgroup">
+                    <input type="text" class="p-inputtext-sm" (keyup.enter)="changeNgoaiQuanBong()" [(ngModel)]="ViTriNgoaiQuan"
+                    pInputText />
+                    <button type="button" pButton pRipple icon="pi pi-check"
+                        class="p-button-success p-button-text p-button-sm"
+                        (click)="changeNgoaiQuanBong()"></button>
+                </div>
+            </div>
+        </div>
+        <div class="p-col-3">
+            <div style="position: sticky;top:0">
+                <table class="table table-sm table-bordered" >
+                    <thead>
+                        <tr>
+                            <th>Loại bông</th>
+                            <th>Kiện</th>
+                            <!-- <th>%</th>
+                        <th>Cũ</th> -->
+                            <th>Đã xếp</th>
+                            <!-- <th>Còn lại</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let lobong of item.listLoBong;let i = index"
+                            [ngStyle]="{'background-color': lobong.Mau}">
+                            <td (click)="xepLoBong(lobong,i)">{{lobong.TenLoBong}}</td>
+                            <td class="text-right">{{lobong.SoLuong}}</td>
+                            <td class="text-right">{{lobong.DaXep}}</td>
+                            <!-- <td class="text-right">{{lobong.ConLai}}</td> -->
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    Tổng số
+                                </div>
+                            </td>
+                            <td class="text-right">{{length}}</td>
+                            <td></td>
+                            <!-- <td></td> -->
+                        </tr>
+                        <tr>
+                            <td colspan="2">Khối lượng 1 bàn</td>
+                            <td class="text-right">{{item.KhoiLuongBan|number:'0.0-2'}}</td>
+                            <!-- <td></td> -->
+                        </tr>
+                        <tr>
+                            <td colspan="2">Khối lượng 1 tuần</td>
+                            <td class="text-right">{{item.KhoiLuongBan*7|number:'0.0-2'}}</td>
+                            <!-- <td></td> -->
+                        </tr>
+                    </tbody>
+                </table>
+                <label>Lưu ý:</label>
+                <textarea class="no-print" rows="5" cols="30" pInputTextarea autoResize="autoResize"
+                    [(ngModel)]="item.GhiChu"></textarea>
+                <p class="print">
+                    {{item.GhiChu}}
+                </p>
+                <label class="no-print">Người lập biểu:</label>
+                <input type="text" class="p-inputtext-sm no-print"
+                    [(ngModel)]="item.NguoiLapBieu" pInputText />
+               
+            </div>
+
+        </div>
+        <div class="p-col-2 pr-0">
+            <table class="table table-sm table-bordered" style="position: sticky;top:0">
+                <tbody>
+                    <tr *ngFor="let slot of block4;">
+                        <td (click)="slotFocus(slot)" (contextmenu)="returnSlot($event,slot)"
+                            [ngStyle]="{'background-color': banBong[slot]._ngoaiQuan ?(banBong[slot]._focus?'#009dff':'#8cd3ff'):(banBong[slot]._focus?'#ccc':banBong[slot].Mau)}">
+                            {{banBong[slot].STT}} {{banBong[slot].labelLoBong}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-col-2 pl-0 pr-0">
+            <table class="table table-sm table-bordered" style="position: sticky;top:0">
+                <tbody>
+                    <tr *ngFor="let slot of block5;">
+                        <td (click)="slotFocus(slot)" (contextmenu)="returnSlot($event,slot)"
+                            [ngStyle]="{'background-color': banBong[slot]._ngoaiQuan ?(banBong[slot]._focus?'#009dff':'#8cd3ff'):(banBong[slot]._focus?'#ccc':banBong[slot].Mau)}">
+                            {{banBong[slot].STT}} {{banBong[slot].labelLoBong}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="p-col-3 pl-0 pr-0">
+            <table class="table table-sm table-bordered" style="position: sticky;top:0">
+                <tbody>
+                    <tr>
+                        <td *ngFor="let slot of block1" (click)="slotFocus(slot)"
+                            (contextmenu)="returnSlot($event,slot)"
+                            [ngStyle]="{'background-color': banBong[slot]._ngoaiQuan ?(banBong[slot]._focus?'#009dff':'#8cd3ff'):(banBong[slot]._focus?'#ccc':banBong[slot].Mau)}">
+                            {{banBong[slot].STT}} {{banBong[slot].labelLoBong}}
+                        </td>
+                    </tr>
+                    <ng-container *ngFor="let slot of block2;let first = first; let last = last">
+                        <tr *ngIf="!first&&!last">
+                            <td>
+                                &nbsp;
+                            </td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </ng-container>
+
+                    <tr>
+                        <td *ngFor="let slot of block3" (click)="slotFocus(slot)"
+                            (contextmenu)="returnSlot($event,slot)"
+                            [ngStyle]="{'background-color': banBong[slot]._ngoaiQuan ?(banBong[slot]._focus?'#009dff':'#8cd3ff'):(banBong[slot]._focus?'#ccc':banBong[slot].Mau)}">
+                            {{banBong[slot].STT}} {{banBong[slot].labelLoBong}}
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="p-col-2 pl-0 pr-0">
+            <table class="table table-sm table-bordered" style="position: sticky;top:0">
+                <tbody>
+                    <tr *ngFor="let slot of block2;">
+                        <td (click)="slotFocus(slot)" (contextmenu)="returnSlot($event,slot)"
+                            [ngStyle]="{'background-color': banBong[slot]._ngoaiQuan ?(banBong[slot]._focus?'#009dff':'#8cd3ff'):(banBong[slot]._focus?'#ccc':banBong[slot].Mau)}">
+                            {{banBong[slot].STT}} {{banBong[slot].labelLoBong}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="print text-center" style="float: right;">
+        <label class="print" >Nguời lập biểu</label>
+        <p class="print pt-sign" >
+            {{item.NguoiLapBieu}}
+        </p>
+    </div>
+</div>
+<div class="modal-footer">
+</div>

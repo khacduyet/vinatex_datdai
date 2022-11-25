@@ -1,0 +1,114 @@
+<div class="modal-header">
+    <h5 class="modal-title">{{opt==='add'?'Thêm mới':'Cập nhật'}} mặt hàng</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-grid">
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Mã<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" (keyup.enter)="accept()" [(ngModel)]="item.Ma" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Tên mặt hàng<span class="text-danger">*</span>:</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" (keyup.enter)="accept()" [(ngModel)]="item.Ten" pInputText />
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Loại sợi</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <p-dropdown [options]="listLoaiSoi" placeholder="Chọn loại sợi" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.IddmLoaiSoi"></p-dropdown>
+            </div>
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto text-right">Đơn vị tính</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <input type="text" class="p-inputtext-sm" [(ngModel)]="item.DonViDatHang" pInputText />
+            </div>
+        </div>
+        <!-- <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-4 p-p-0 my-auto">Công đoạn</label>
+            <div class="p-col-12 p-lg-8 p-p-0">
+                <p-multiSelect [options]="listCongDoan"
+                [(ngModel)]="item.listCongDoan" 
+                defaultLabel="Lựa chọn công đoạn"
+                [filter]="false" [showToggleAll]="true" [maxSelectedLabels] = "4"
+                selectedItemsLabel = "{0} công đoạn được chọn"
+                display="chip">
+            </p-multiSelect>
+            </div>
+        </div> -->
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Chi số: </label>
+            <label class="p-col-12 p-lg-1 p-p-0 my-auto text-right">Ne</label>
+            <div class="p-col-12 p-lg-2 p-p-0">
+                <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.Ne"
+                (ngModelChange)="item.Nm=TinhGiaTri($event)">
+                </p-inputNumber>
+            </div>
+            <label class="p-col-12 p-lg-1 p-p-0 my-auto text-right">Nm</label>
+            <div class="p-col-12 p-lg-2 p-p-0">                
+                <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.Nm" disabled>
+                </p-inputNumber>
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Tỷ lệ pha trộn(%): </label>
+            <label class="p-col-12 p-lg-1 p-p-0 my-auto text-right">PE</label>
+            <div class="p-col-12 p-lg-2 p-p-0">
+                <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.PE">
+                </p-inputNumber>
+            </div>
+            <label class="p-col-12 p-lg-1 p-p-0 my-auto text-right">CM</label>
+            <div class="p-col-12 p-lg-2 p-p-0">                
+                <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.CM">
+                </p-inputNumber>
+            </div>
+            <label class="p-col-12 p-lg-1 p-p-0 my-auto text-right">CD</label>
+            <div class="p-col-12 p-lg-2 p-p-0">                
+                <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.CD">
+                </p-inputNumber>
+            </div>
+        </div>
+        
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Độ săn</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <div class="p-inputgroup">
+                    <p-inputNumber [minFractionDigits]="2" locale="vi-VN" [(ngModel)]="item.DoSan">
+                    </p-inputNumber>
+                    <span class="p-inputgroup-addon">(Xoắn/met)</span>
+                </div>
+            </div>
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto text-right">Đặc tính sợi</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <p-dropdown [options]="listDacTinhSoi" placeholder="Chọn đặc tính sợi" styleClass="p-inputtext-sm"
+                    [(ngModel)]="item.DacTinhSoi"></p-dropdown>
+                <!-- <input type="text" class="p-inputtext-sm" [(ngModel)]="item.DacTinhSoi" pInputText /> -->
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Paraphin</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <input type="checkbox" class="p-inputtext-sm" [(ngModel)]="item.isParaphin"/>
+            </div>
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Hoạt động</label>
+            <div class="p-col-12 p-lg-4 p-p-0">
+                <input type="checkbox" class="p-inputtext-sm" [(ngModel)]="item.HoatDong"/>
+            </div>
+        </div>
+        <div class="p-col-12 flex-column flex-lg-row d-flex">
+            <label class="p-col-12 p-lg-2 p-p-0 my-auto">Ghi chú</label>
+            <div class="p-col-12 p-lg-10 p-p-0">
+                <input type="text" class="p-inputtext-sm" (keyup.enter)="accept()" [(ngModel)]="item.GhiChu" pInputText />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()" [disabled]="khongclicknhieu"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>

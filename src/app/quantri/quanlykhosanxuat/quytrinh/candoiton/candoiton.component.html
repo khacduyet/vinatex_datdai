@@ -1,0 +1,77 @@
+<div class="p-mb-3 p-mt-3">
+    <h4 style="color:#1f2779">Cân đối tồn</h4>
+</div>
+<div class="p-d-flex p-ai-center p-jc-between p-mb-3">
+    <div class="p-d-flex p-flex-row">
+        <div class="p-mr-2">
+            <p-dropdown [options]="listLoaiPhuongAn" placeholder="Chọn loại" styleClass="p-inputtext-sm"
+                [(ngModel)]="filter.LoaiPhuongAn" optionLabel="name" [showClear]="true"></p-dropdown>
+        </div>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-3">
+        <div class="card-body border scollTable">
+            <dd style="max-height: 37rem; overflow-y: auto;">
+                <li *ngFor="let item of listDuAn">
+                    <!-- <i class="fas fa-angle-right mr-1"
+                        *ngIf="item.collspan==false"
+                        (click)="item.collspan=!item.collspan"></i>
+                    <i class="fas fa-angle-down mr-1"
+                        *ngIf="item.collspan==true"
+                        (click)="item.collspan=!item.collspan"></i> -->
+                    <span
+                    (click)="getListKho(item)">
+                        {{item.TenDuAn}}
+                    </span>
+                    <ul *ngIf="listdmKho.length > 0 && item.collspan==false">
+                        <li *ngFor="let dmKho of listdmKho">
+                            <span (click)="getListLuuKho(1,dmKho, true)"
+                            [ngClass]="{'badge-info':dmKho.select==true}">
+                                {{dmKho.Ten}}
+                            </span>
+                        </li>
+                    </ul>
+                </li>
+                <!-- </ng-template>
+            <ng-container
+                *ngTemplateOutlet="recursiveList; context:{ $implicit: ListtreeVL }">
+            </ng-container> -->
+            </dd>
+        </div>
+    </div>
+    <div class="p-col-9">
+        <p-table [value]="items" styleClass="p-datatable-sm p-datatable-striped" [scrollable]="true">
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                    <col style="width:50px">
+                    <col *ngFor="let col of cols">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th *ngFor="let header of cols">
+                        {{header.header}}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        {{ 20 * (paging.CurrentPage - 1) + i + 1 }}
+                    </td>
+                    <td class="text-center" *ngFor="let col of cols">
+                        {{item[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center p-jc-between">
+                    Tổng số bản ghi {{paging.TotalItem}}.<p-paginator #paginator [totalRecords]="paging.TotalItem"
+                        [rows]="20" (onPageChange)="changePage($event)"></p-paginator>
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

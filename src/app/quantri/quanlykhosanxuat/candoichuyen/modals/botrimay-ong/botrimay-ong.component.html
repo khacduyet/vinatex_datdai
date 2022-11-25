@@ -1,0 +1,173 @@
+<div class="modal-header">
+    <h5 class="modal-title">Bố trí máy: Công đoạn ống - {{addonData.LabelNgay}}</h5>
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="p-d-flex p-flex-row p-jc-between">
+        <div class="modal-bt p-mb-4 ">
+            <button pButton pRipple type="button" label="Quay lại" class="p-mr-2 p-button-sm"
+                (click)="activeModal.dismiss('close')"></button>
+            <button pButton pRipple type="button" label="Ghi lại" class="p-mr-2 p-button-sm "
+                (click)="GhiLai()"></button>
+            <button pButton pRipple type="button" label="<<<<<" class="p-mr-2 p-button-sm" (click)="Previous()"
+                *ngIf="checkbutton.Previous"></button>
+            <button pButton pRipple type="button" label=">>>>>" class="p-mr-2 p-button-sm" (click)="Next()"
+                *ngIf="checkbutton.Next"></button>
+            <button pButton pRipple type="button" label="Xóa" class="p-mr-2 p-button-sm" *ngIf="checkbutton.Xoa"
+                (click)="XoaQuyTrinh()"></button>
+            <button pButton pRipple type="button" label="Không duyệt" class="p-mr-2 p-button-sm" (click)="KhongDuyet()"
+                *ngIf="checkbutton.KhongDuyet"></button>
+            <button pButton pRipple type="button" label="Chuyển duyệt" class="p-mr-2 p-button-sm"
+                (click)="ChuyenDuyet()" *ngIf="checkbutton.ChuyenTiep"></button>
+            <!-- <button pButton pRipple type="button" label="Kết xuất" class="p-mr-2 p-button-sm"></button> -->
+        </div>
+    </div>
+    <div class="p-d-flex p-flex-row">
+        <label class="mr-3">Áp dụng trong khoảng:</label>
+        <p-calendar inputStyleClass="p-inputtext-sm" [locale]="lang" dateFormat="dd/mm/yy"
+            [defaultDate]="minDateChonMay" [yearNavigator]="false" [(ngModel)]="filter.TuNgay" placeholder="Từ ngày">
+        </p-calendar>
+        <p-calendar inputStyleClass="p-inputtext-sm" [locale]="lang" dateFormat="dd/mm/yy"
+            [defaultDate]="maxDateChonMay" [yearNavigator]="false" [(ngModel)]="filter.DenNgay" placeholder="Đến ngày">
+        </p-calendar>
+        <button pButton pRipple type="button" label="Áp dụng" class="p-mr-2 p-button-sm " (click)="ApDungDenNgay()"></button>
+    </div>
+    <ng-container *ngFor="let ca of arrCa">
+        <h5>{{ca.Name}}</h5><span><button pButton pRipple type="button" label="Áp dụng cho các ca còn lại"
+                class="p-button-sm" (click)="ApDungCa(ca.prop)"></button></span>
+        <div class="p-grid">
+            <div class="p-col-12 p-p-0 d-flex flex-column flex-lg-row">
+                <div class="p-col-12 p-lg-8 p-mb-3 p-p-3 d-flex flex-column flex-lg-row">
+                    <p-table [value]="item.listDaBoTri|Ca:this.mapCa_Id[ca.prop]"
+                        styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines">
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col>
+                                <col>
+                                <col>
+                                <col>
+                                <col style="width:200px">
+                                <col style="width:100px">
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>Máy ống</th>
+                                <th>Số cọc/máy</th>
+                                <th>Mặt hàng</th>
+                                <th>Tốc độ</th>
+                                <th>Màu</th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr >
+                                <td [ngStyle]="{'background-color': item.MaMau}">{{item.TenMay}}</td>
+                                <td>
+                                    <div class="d-flex flex-row">
+                                        <p-inputNumber [minFractionDigits]="0" locale="vi-VN" [(ngModel)]="item.SoCocTu"
+                                            (onBlur)="inputChange()">
+                                        </p-inputNumber>-<p-inputNumber [minFractionDigits]="0" locale="vi-VN"
+                                            [(ngModel)]="item.SoCocDen" (onBlur)="inputChange()">
+                                        </p-inputNumber>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p-dropdown [filter]="true" showClear="true" [options]="listHangHoa"
+                                        placeholder="Chọn mặt hàng" styleClass="p-inputtext-sm"
+                                        [(ngModel)]="item.IdCanDoiChuyen_CanBoTri"
+                                        (onChange)="chonMatHang(item,$event)"></p-dropdown>
+                                </td>
+                                <td>
+                                    <p-dropdown [options]="item.listTocDo" placeholder="Chọn tốc độ máy"
+                                        styleClass="p-inputtext-sm" [(ngModel)]="item.IdPhanNhomMay_Item" (onChange)="chonTocDo(item,$event)"></p-dropdown>
+                                </td>
+                                <td>
+                                    <div style="display: flex; flex-direction: row;" *ngIf="item.IdCanDoiChuyen_CanBoTri!==null">
+                                        <div style="width:28px">
+                                            <p-colorPicker [(ngModel)]="item.MaMau"></p-colorPicker>
+                                        </div>
+                                        <input type="text" placeholder="Màu" class="p-inputtext-sm" pInputText [(ngModel)]="item.TenMau"/>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button pButton pRipple type="button" icon="pi pi-plus"
+                                        class="p-button-rounded p-button-sm " (click)="addMore(item)"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <!-- <ng-template pTemplate="footer">
+                        <td>
+                            <input pInputText type="text" [(ngModel)]="newMay.NoiDung">
+                        </td>
+                        <td>
+                            <input pInputText type="text" [(ngModel)]="newMay.NoiDung">
+                        </td>
+                        <td>
+                            <input pInputText type="text" [(ngModel)]="newMay.NoiDung">
+                        </td>
+                        <td>
+                            <input pInputText type="text" [(ngModel)]="newMay.NoiDung">
+                        </td>
+                        <td class="text-center">
+                            <button pButton pRipple type="button" icon="pi pi-plus"
+                                class="p-button-rounded p-button-sm " (click)="add()"></button>
+                        </td>
+                    </ng-template> -->
+                    </p-table>
+                </div>
+                <div class="p-col-12 p-lg-4 p-mb-3 p-p-3 d-flex flex-column flex-lg-row">
+                    <p-table [value]="listCanBoTri[ca.prop]"
+                        styleClass="p-datatable-sm wrap-text p-datatable-striped p-datatable-gridlines">
+                        <ng-template pTemplate="colgroup">
+                            <colgroup>
+                                <col style="width: 50px;">
+                                <col>
+                                <!-- <col> -->
+                                <col>
+                                <col>
+                                <col>
+                            </colgroup>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th>Mặt hàng</th>
+                                <th>Số máy con</th>
+                                <!-- <th>Số máy ống</th> -->
+                                <th>Số cọc ống</th>
+                                <th>Số cọc ống/SC</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{item.Ten}}</td>
+                                <!-- <td></td> -->
+                                <td class="text-right">{{item.SoMayCon|number:'0.0-2'}}</td>
+                                <td class="text-right">{{item.SoCocOng}}</td>
+                                <td class="text-right">{{item.OngTrenCon|number:'0.0-2'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="footer">
+                            <tr>
+                                <td>#</td>
+                                <td>Tổng</td>
+                                <td class="text-right">{{TongMatHang[ca.prop].SoMayCon|number:'0.0-2'}}</td>
+                                <td class="text-right">{{TongMatHang[ca.prop].SoCocOng|number:'0.0-2'}}</td>
+                                <td class="text-right">{{TongMatHang[ca.prop].OngTrenCon|number:'0.0-2'}}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<div class="modal-footer">
+    <!-- <button pButton pRipple label="Chấp nhận" class="p-button-sm p-mr-2" (click)="accept()"></button>
+    <button pButton pRipple label="Thoát" class="p-button-sm p-button-outlined p-button-secondary p-mr-2"
+        (click)="activeModal.dismiss()"></button> -->
+</div>

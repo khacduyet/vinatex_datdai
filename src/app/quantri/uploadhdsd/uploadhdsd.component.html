@@ -1,0 +1,13 @@
+<div class="p-grid">
+    <div class="p-col-4 p-d-flex p-flex-row">
+        <label class="p-col-12 p-lg-4 p-p-0 my-auto">Tài liệu đính kèm:</label>
+        <div class="p-col-12 p-lg-8 p-p-0">
+            <div class="p-inputgroup">
+                <input type="text" pInputText class="p-inputtext-sm" [(ngModel)]="hdsd.TenGoc" disabled>
+                <button type="button" pButton pRipple icon="pi pi-upload"
+                    class="p-button-sm p-button-text p-button-secondary" (click)="taiLenFileDinhKem()"></button>
+            </div>
+        </div>
+    </div>
+    <button pButton pRipple label="Xác nhận" class="p-button-sm p-mr-2" (click)="uploadHDSD()"></button>
+</div>

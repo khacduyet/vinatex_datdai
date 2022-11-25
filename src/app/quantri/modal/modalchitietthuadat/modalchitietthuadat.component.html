@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <h5 class="modal-title">Chi tiết thửa đất</h5>
+    <div>
+      <h6>Thời gian cập nhật: {{selectedThuaDat.Modified|date:'dd/MM/yyyy hh:mm'}}</h6>  
+      <h6>Đơn vị cập nhật: {{selectedThuaDat.NguoiCapNhat}}</h6>  
+    </div>
+    
+    
+    <button *ngIf="false" type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <p-tabView>
+        <p-tabPanel header="Thông tin chung">
+            <app-thong-tin-chung [item]="selectedThuaDat"></app-thong-tin-chung>
+        </p-tabPanel>
+        <p-tabPanel header="Hiện trạng sử dụng" [selected]="activedTab==='HTSD'">
+            <app-hien-trang-su-dung [item]="selectedThuaDat.HienTrangSuDungs" [opt]="'modal'" [IDTaiSan]="selectedThuaDat.ID" (itemChange)="changeHienTrang($event)"></app-hien-trang-su-dung>
+        </p-tabPanel>
+        <p-tabPanel header="Tài sản trên đất">
+            <app-tai-san-tren-dat [item]="selectedThuaDat.TaiSanDatNhas" ></app-tai-san-tren-dat>
+        </p-tabPanel>
+        <p-tabPanel header="Ảnh hiện trạng">
+            <app-so-do [item]="selectedThuaDat.SoDos"></app-so-do>
+        </p-tabPanel>
+        <p-tabPanel header="Tình trạng pháp lý">
+            <app-tinh-trang-phap-ly [item]="selectedThuaDat.BienDongs"></app-tinh-trang-phap-ly>
+        </p-tabPanel>
+        <p-tabPanel header="Hồ sơ - văn bản pháp quy">
+            <app-ho-so-van-ban-phap-quy [item]="selectedThuaDat.HoSos"></app-ho-so-van-ban-phap-quy>
+        </p-tabPanel>
+        <p-tabPanel header="Thống kê thông tin thửa đất">
+            <app-thong-ke-thong-tin-thua-dat [item]="ThongKeThongTinThuaDat"></app-thong-ke-thong-tin-thua-dat>
+        </p-tabPanel>
+        <!-- <p-tabPanel header="Thông tin tài chính">
+
+        </p-tabPanel> -->
+    </p-tabView>
+</div>
+<div class="modal-footer">
+    <button pButton pRipple label="Thoát" icon="pi pi-trash" class="p-button-sm p-button-outlined p-button-secondary p-mr-2" (click)="activeModal.dismiss()"></button>
+</div>

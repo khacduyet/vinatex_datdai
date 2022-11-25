@@ -1,0 +1,60 @@
+<div>
+    <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="add()"></button>
+    <div class="table-responsive p-mt-3">
+        <p-table [value]="items|isXoa" styleClass="p-datatable-sm p-datatable-striped wrap-text" [scrollable]="true">
+            <ng-template pTemplate="colgroup">
+                <colgroup>
+                    <col style="width:50px">
+                    <col *ngFor="let col of cols" [ngStyle]="{width:col.width}">
+                    <col style="width: 100px;">
+                </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">STT</th>
+                    <th *ngFor="let header of cols">
+                        {{header.header}}
+                    </th>
+                    <th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td class="text-center">
+                        <!-- {{ 10 * (paging.CurrentPage - 1) + i + 1 }} -->
+                        {{i + 1}}
+                    </td>
+                    <!-- <td *ngFor="let col of cols" [ngClass]="[col.class]">
+                        {{item[col.field]}}
+                    </td> -->
+                    <td class="text-center">
+                        {{item.TendmBienDong}}
+                    </td>
+                    <td class="text-center">
+                        {{item.NoiDungBienDong}}
+                    </td>
+                    <td class="text-center">
+                        {{item.NgayKy|date:'dd/MM/yyyy'}}
+                    </td>
+                    <td class="text-center">
+                        {{item.NguoiKy}}
+                    </td>
+                    <td class="date">
+                        <button pButton pRipple type="button" icon="pi pi-pencil"
+                            class="p-button-text p-button-sm p-button-secondary p-mr-2" (click)="edit(item,i)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash"
+                            class="p-button-text p-button-sm p-button-secondary" (click)="delete(i)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary">
+                <div class="p-d-flex p-ai-center ">
+                    Tổng số biến động {{(items|isXoa).length}}.
+                    <!-- <p-paginator p-jc-between
+                        [totalRecords]="paging.TotalItem" [rows]="10"
+                        (onPageChange)="changePage($event)"></p-paginator> -->
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

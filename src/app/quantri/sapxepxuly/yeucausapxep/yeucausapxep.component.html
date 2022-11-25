@@ -1,0 +1,70 @@
+<h4 class="title">
+    Yêu cầu sắp xếp
+</h4>
+<div class="p-d-flex p-ai-center p-jc-between p-mb-3">
+    <div class="p-d-flex p-flex-row">
+        <button pButton pRipple label="Thêm mới" icon="pi pi-plus" class="p-button-sm p-mr-2" (click)="add()"></button>
+        <button pButton pRipple label="Xóa tất cả" *ngIf="selectedItems.length!==0" class="p-button-sm p-button-secondary p-button-outlined p-mr-2" (click)="deleteAll()"></button>
+    </div>
+    <div class="p-d-flex p-flex-row" style="width:200px">
+        <!-- <div class="p-inputgroup" style="width:200px">
+            <input type="text" placeholder="Tìm kiếm" [(ngModel)]="keyWord" class="p-inputtext-sm" pInputText />
+            <button type="button" pButton pRipple icon="pi pi-refresh" class="p-button-secondary p-button-text"(click)="resetFilter()"></button>
+            <button type="button" pButton pRipple icon="pi pi-search" class="p-button-secondary p-button-text"(click)="GetListdmBienDong()"></button>
+        </div> -->
+    </div>
+</div>
+<p-table [value]="items" [(selection)]="selectedItems" styleClass="p-datatable-sm p-datatable-striped" [scrollable]="true">
+    <ng-template pTemplate="colgroup">
+        <colgroup>
+            <!-- <col style="width:50px"> -->
+            <col style="width:50px">
+            <col *ngFor="let col of cols" [ngStyle]="{width:col.width}">
+            <col style="width:200px">
+            <col style="width: 100px;">
+        </colgroup>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <!-- <th>
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th> -->
+            <th class="text-center">STT</th>
+            <th *ngFor="let header of cols">
+                {{header.header}}
+            </th>
+            <th class="text-center">Hồ sơ pháp lý</th>
+            <th></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <tr>
+            <!-- <td class="text-center">
+                <p-tableCheckbox [value]="item"></p-tableCheckbox>
+            </td> -->
+            <td class="text-center">
+                {{ 20 * (paging.CurrentPage - 1) + i + 1 }}
+            </td>
+            <td class="text-center">{{item.Ten}}</td>
+            <td><p style="white-space: pre-wrap;">{{item.YeuCau}}</p></td>
+            <td class="text-center">
+                {{item.QuyDinhPhapLy}}
+            </td>
+            <td>
+                <a href="javascript:void(0)" (click)="download(item.TepDinhKems)">{{item.TepDinhKems[0]?.TenGoc}}</a>
+            </td>
+            <td class="text-center">
+                <button pButton pRipple type="button" icon="pi pi-pencil"
+                    class="p-button-text p-button-sm p-button-secondary p-mr-2" (click)="edit(item)"></button>
+                <button pButton pRipple type="button" icon="pi pi-trash"
+                    class="p-button-text p-button-sm p-button-secondary" (click)="delete(item)"></button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        <div class="p-d-flex p-ai-center p-jc-between">
+            Tổng số bản ghi {{paging.TotalItem}}.<p-paginator [totalRecords]="paging.TotalItem" [rows]="20"
+                (onPageChange)="changePage($event)"></p-paginator>
+        </div>
+    </ng-template>
+</p-table>
